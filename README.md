@@ -15,7 +15,7 @@ Afterwards, run these commands:
 
 # Example
 
-The following example downloads data for three stations over five days:
+The following example downloads data for three stations:
 
 > library(NVEDATA)
 

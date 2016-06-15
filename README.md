@@ -11,6 +11,7 @@ On RStudio, install package devtools:
 Afterwards, run these commands:
 
 > library(devtools)
+
 > install_github("jmg/NVEDATA")
 
 # Example

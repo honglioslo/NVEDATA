@@ -14,4 +14,4 @@ meta_data <- read_metadata_file("Serier_Avrenningskart.csv")
 
 # Store for R package
 
-devtools::use_data(wsh_index, meta_data, overwrite = TRUE)
+devtools::use_data(wsh_index, meta_data, overwrite = TRUE, internal = TRUE)

@@ -1,3 +1,18 @@
+#' @title Load metadata for a set of stations
+#' @param Vector with stations (if not provided, the default returns all stations available)
+#' @return A dataframe with metadata
+#' @examples
+#' regine_main <- c('1.48','1.49','1.50')
+#' metadata <- get_metadata(regine_main)
+#' @export
+
+get_metadata <- function(regine_main = meta_data$regine_main) {
+
+  isel <- sapply(regine_main, FUN = function(x) which(meta_data$regine_main == x))
+
+  return(meta_data[isel, ])
+
+}
 
 
 #' @title Load meteorological data (air temperature and precipitation) for a set of stations
@@ -123,3 +138,9 @@ load_data_mean <- function(path, regine_main, time_vec) {
   return(data_all)
 
 }
+
+
+
+
+
+

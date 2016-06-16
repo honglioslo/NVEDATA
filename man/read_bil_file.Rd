@@ -7,13 +7,13 @@
 read_bil_file(filename, nrow = 1550, ncol = 1195)
 }
 \arguments{
-\item{filename}{Name of BIL file}
+\item{filename}{Name of the BIL file}
 
-\item{nrow}{Number of rows in grid file}
+\item{nrow}{Number of rows in grid file (SeNorge grids used as default)}
 
-\item{ncol}{Number of columns in grid file}
+\item{ncol}{Number of columns in grid file (SeNorge grids used as default)}
 }
 \value{
-Vector with values from the BIL file
+Vector with values (not reshaped into a grid)
 }
 

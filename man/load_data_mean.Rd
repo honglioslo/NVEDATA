@@ -2,25 +2,24 @@
 % Please edit documentation in R/assemble_data.R
 \name{load_data_mean}
 \alias{load_data_mean}
-\title{Load meteorological data for a set of stations}
+\title{Load meteorological data (air temperature and precipitation) for a set of stations}
 \usage{
-load_data_mean(path, station, time_vec)
+load_data_mean(path, regine_main, time_vec)
 }
 \arguments{
-\item{path}{Path to folder with BIL files}
+\item{path}{Path to folder with BIL files (currently only works for SeNorge version 2.0 and 2.1)}
 
-\item{station}{Vector with stations}
+\item{regine_main}{Vector with stations}
 
 \item{time_vec}{Vector with dates}
 }
 \value{
-A list with data
+A list with data for each station
 }
 \examples{
-path = "//hdata/grid/metdata/met_obs_v2.0"
-station = c("1.48","1.49","1.50")
-time_vec = seq(as.Date("2011-01-01"), as.Date("2011-01-04"), by="days")
-res = load_data_mean(path,station,time_vec)
-
+path <- '//hdata/grid/metdata/met_obs_v2.0'
+regine_main <- c('1.48','1.49','1.50')
+time_vec <- seq(as.Date('2011-01-01'), as.Date('2011-01-04'), by='days')
+res <- load_data_mean(path,regine_main,time_vec)
 }
 

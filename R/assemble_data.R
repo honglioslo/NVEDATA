@@ -14,6 +14,32 @@
 
 load_data_mean <- function(path, regine_main, time_vec) {
 
+  # Test if metadata exist for stations
+
+  if (!all(regine_main %in% meta_data$regine_main)) {
+
+    imissing <- !(regine_main %in% meta_data$regine_main)
+
+    station_str <- paste(regine_main[imissing], collapse = ", ")
+
+    stop(paste("Lacking metadata for station", station_str, sep = " "))
+
+  }
+
+  # Test if wsh_index exists for stations
+
+  stats_missing <- meta_data$regine_main[!meta_data$drainage_basin_key %in% names(wsh_index)]
+
+  if (any(regine_main %in% stats_missing)) {
+
+    imissing <- regine_main %in% stats_missing
+
+    station_str <- paste(regine_main[imissing], collapse = ", ")
+
+    stop(paste("Lacking wsh_index for station", station_str, sep = " "))
+
+  }
+
   # Initilize list for one station
 
   init_list <- function(istat) {

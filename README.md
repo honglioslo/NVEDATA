@@ -12,7 +12,7 @@ Afterwards, run these commands:
 
 > library(devtools)
 
-> install_github("jmg/NVEDATA")
+> install_github("jmgnve/NVEDATA")
 
 # Example
 

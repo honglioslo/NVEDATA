@@ -1,4 +1,26 @@
 
+
+#' @title Read NC file
+#' @param filename Name of the netcdf file
+#' @return Vector with values (reshaped into a vector from a grid)
+#' @export
+
+read_nc_file <- function(filename) {
+
+  fnc = ncdf4::nc_open(filename)
+
+  v1<-fnc$var[[1]]
+
+  data_nc <- ncdf4::ncvar_get(fnc,v1)
+  data_nc <- as.vector(data_nc)
+
+  ncdf4::nc_close(fnc)
+
+  return(data_nc)
+
+}
+
+
 #' @title Read BIL file
 #' @param filename Name of the BIL file
 #' @param nrow Number of rows in grid file (SeNorge grids used as default)

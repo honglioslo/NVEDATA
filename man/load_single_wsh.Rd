@@ -2,16 +2,16 @@
 % Please edit documentation in R/utils.R
 \name{load_single_wsh}
 \alias{load_single_wsh}
-\title{Extract data for a single watershed}
+\title{Extract data for a single watershed from gridded meteorological data}
 \usage{
 load_single_wsh(regine_main, grid_data)
 }
 \arguments{
-\item{regine_main}{Name of a station given as 'regine_area.main_no' (e.g. '1.48')}
+\item{regine_main}{Station name (regine_area and main_no seperated by a full stop)}
 
-\item{grid_data}{Data from one BIL file stored as a vector}
+\item{grid_data}{Meteorological data stored as a vector (see functions read_bil_file and read_nc_file for loading such data)}
 }
 \value{
-Vector of values for one watershed
+Vector of values
 }
 

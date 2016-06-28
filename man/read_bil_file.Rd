@@ -2,12 +2,12 @@
 % Please edit documentation in R/utils.R
 \name{read_bil_file}
 \alias{read_bil_file}
-\title{Read BIL file}
+\title{Read bil file}
 \usage{
 read_bil_file(filename, nrow = 1550, ncol = 1195)
 }
 \arguments{
-\item{filename}{Name of the BIL file}
+\item{filename}{Name of the file in bil format}
 
 \item{nrow}{Number of rows in grid file (SeNorge grids used as default)}
 

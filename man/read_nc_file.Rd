@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{read_nc_file}
 \alias{read_nc_file}
-\title{Read NC file}
+\title{Read netdcf file}
 \usage{
 read_nc_file(filename)
 }

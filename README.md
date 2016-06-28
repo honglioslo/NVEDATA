@@ -22,7 +22,7 @@ install_github("jmgnve/NVEDATA")
 The following code returns metadata for all available stations:
 
 ```R
-metadata <- get_metadata(regine_main)
+metadata <- get_metadata()
 ```
 
 The metadata is stored in a data frame that can be used for selecting stations.

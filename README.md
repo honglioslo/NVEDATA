@@ -2,7 +2,7 @@
 
 R package for processing data at NVE, currently meteorological (SeNorge) and runoff data.
 
-# Installation
+## Installation
 
 In RStudio, install package devtools:
 
@@ -17,17 +17,18 @@ library(devtools)
 install_github("jmgnve/NVEDATA")
 ```
 
-# Example for accessing meta data
+## Example for accessing meta data
 
 The following code returns metadata for all available stations:
 
 ```R
+library(NVEDATA)
 metadata <- get_metadata()
 ```
 
 The metadata is stored in a data frame that can be used for selecting stations.
 
-# Example for downloading data (catchment averaged) for a set of stations
+## Example for downloading data (catchment averaged) for a set of stations
 
 ```R
 library(lubridate)
@@ -39,7 +40,7 @@ res <- load_data_mean(path_met, path_runoff, regine_main, time_vec)
 ```
 The meteorological data is averaged over the watershed.
 
-# Example for downloading data (averages for elevation bands) for a set of stations
+## Example for downloading data (averages for elevation bands) for a set of stations
 
 ```R
 library(lubridate)
@@ -51,7 +52,7 @@ res <- load_data_elev(path_met, path_runoff, regine_main, time_vec)
 ```
 The meteorological data is averaged using elevation bands (0 to 200m, 200 to 400m...).
 
-# Example for writing the results to text files
+## Example for writing the results to text files
 
 ```R
 library(lubridate)

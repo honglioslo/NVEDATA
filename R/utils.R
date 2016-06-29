@@ -51,6 +51,7 @@
 #' @param filename File name in format "regine_area.main_no.point_no.param_key.version_end_no"
 #' @param time_vec Vector with times defining the period for data selection
 #' @return Data frame (dplyr) with time and runoff
+#' @import dplyr
 #' @export
 
 read_runoff_file <- function(path, filename) {

@@ -93,6 +93,10 @@ load_runoff_all <-  function(data, path, time_vec) {
 
   qdata <- read_runoff_file(path,data$metadata$obs_series)
 
+  # Convert from m3/s to mm/day
+
+  qdata$Value <- (qdata$Value * 86400 * 1000) / (data$metadata$area_total * 1e6)
+
   # Select time period
 
   istart <- which(qdata$Time == head(time_vec, 1))

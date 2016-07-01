@@ -64,6 +64,17 @@ res <- load_data_mean(path_met, path_runoff, regine_main, time_vec)
 path <- 'C:/Users/psan/Desktop/NVES_BESTA_DATA'
 write_to_text(res, path)
 ```
+## Example for downloading data for the watersheds used in the flood forecasting
 
+```R
+metadata <- get_metadata()
+metadata <- metadata[metadata$br23_HBV == "Y", ]
+path_met <- '//hdata/grid/metdata/met_obs_v2.0'
+path_runoff <- '//hdata/fou/Vannbalansekart/Data/Runoff_All'
+regine_main <- metadata$regine_main
+time_vec <- seq(ymd("2000-10-01"), ymd("2010-10-10"), by = "days")
+res <- load_data_elev(path_met, path_runoff, regine_main, time_vec)
+save(res,file = "data_hbv.RData")
+```
 
 

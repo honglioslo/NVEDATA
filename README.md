@@ -4,10 +4,11 @@ R package for processing data at NVE, currently meteorological (SeNorge) and run
 
 ## Installation
 
-In RStudio, install package devtools:
+For windows and RStudio, install the following packages:
 
 ```R
 install.packages("devtools")
+install.packages("curl")
 ```
 
 Install the package with the following code:

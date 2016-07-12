@@ -224,3 +224,250 @@ load_single_wsh <- function(regine_main, grid_data) {
 # }
 
 
+##-----
+# HACK FLO
+
+#' @title Read HBV modelling results
+#' @param path Path to the HBV modelling results ('../Flood_forecasting/data/usikkerhet_grd/utskrift' as default)
+#' @param filename Name of the file with HBV modelling results ("vfpost_usikkerhet.txt" as default))
+#' @return A dataframe with the modelling results and parameters
+#' @import dplyr
+#' @export
+
+read_HBV_data <- function(path = '../Flood_forecasting/data/usikkerhet_grd/utskrift', filename = "vfpost_usikkerhet.txt") {
+
+  # path_50 <- '../Flood_forecasting/data/usikkerhet_grd/ut_test'
+  metadata <- get_metadata()
+  metadata$station_name <- tolower(metadata$station_name)
+
+#   path <- '../Flood_forecasting/data/usikkerhet_grd/utskrift'
+#   filename <- "vfpost_usikkerhet.txt"
+
+  filename <- paste(path, "/", filename, sep = "")
+
+  file_connect <- file(filename, open = "rt")
+
+  regine_main <- c()
+  station_name <- c()
+  time_vec <- c()
+  precip <- c()
+  temperature <- c()
+  snow_storage <- c()
+  modelled <- c()
+  measured <- c()
+
+# skip 1 line
+  readLines(file_connect, n = 1)
+
+  x <- TRUE
+  i = 0
+  # read station name
+  name <- substring(readLines(file_connect, n = 1), 7)
+  index <- which(metadata$station_name == name)
+  if (length(index) == 1) {
+    regine <- metadata$regine_main[index]
+  } else {
+    regine <- "NA"
+    }
+
+
+  while (x == TRUE) {
+    # skip 3 lines
+    readLines(file_connect, n = 3)
+    # get indices
+    j <- i * 30
+    k <- j + 21
+    l <- k + 9
+
+    station_name[(j+1): l] <- rep(name, 30)
+    regine_main[(j+1): l] <- rep(regine, 30)
+    temp <- read.table(file_connect, nrows = 21)
+
+    time_vec[(j+1):k] <- temp[, 1]
+    precip[(j+1):k] <- temp[, 2]
+    temperature[(j+1):k] <- temp[, 3]
+    snow_storage[(j+1):k] <- temp[, 4]
+    modelled[(j+1):k] <- temp[, 5]
+    measured[(j+1):k] <- temp[, 6]
+    # Skip the line that separate past and forecast
+    readLines(file_connect, n = 1)
+    temp <- read.table(file_connect, nrows = 9)
+
+    time_vec[(k+1):l] <- temp[, 1]
+    precip[(k+1):l] <- temp[, 2]
+    temperature[(k+1):l] <- temp[, 3]
+    snow_storage[(k+1):l] <- temp[, 4]
+    modelled[(k+1):l] <- temp[, 5]
+    measured[(k+1):l] <- temp[, 6]
+
+    # skip 2 lines before next station
+    readLines(file_connect, n = 2)
+
+    station_line <- readLines(file_connect, n = 1)
+    x <- grepl("Felt", station_line)
+
+    name <- substring(station_line, 7)
+    index <- which(metadata$station_name == name)
+    if (length(index) == 1) {
+      regine <- metadata$regine_main[index]
+    } else {
+      regine <- "NA"
+    }
+
+    if (length(x) == 0) {break}
+    # current_line_old <- current_line
+    i <- i + 1
+  }
+
+  HBV <- data.frame(regine_main = regine_main,
+                    time_vec = time_vec,
+                    precip = precip,
+                    temperature = temperature,
+                    snow_storage = snow_storage,
+                    modelled = modelled,
+                    measured = measured)
+  HBV <- tbl_df(HBV)
+  invisible(HBV)
+
+}
+
+
+
+#' @title Read HBV50 modelling results
+#' @param path Path to the HBV modelling results ('../Flood_forecasting/data/usikkerhet_grd/ut_test' as default)
+#' @param filename Name of the file with HBV modelling results ("vfpost_usikkerhet.txt" as default))
+#' @return A dataframe with the modelling results and parameters
+#' @import dplyr
+#' @export
+
+read_HBV50_data <- function(path = '../Flood_forecasting/data/usikkerhet_grd/ut_test', filename = "vfpost_usikkerhet.txt") {
+
+  metadata <- get_metadata()
+  metadata$station_name <- tolower(metadata$station_name)
+
+  #   path <- '../Flood_forecasting/data/usikkerhet_grd/utskrift'
+  #   filename <- "vfpost_usikkerhet.txt"
+
+  filename <- paste(path, "/", filename, sep = "")
+
+  file_connect <- file(filename, open = "rt")
+
+  regine_main <- c()
+  station_name <- c()
+  time_vec <- c()
+  precip <- c()
+  temperature <- c()
+  snow_storage <- c()
+  modelled <- c()
+  measured <- c()
+
+  # skip 1 line
+  readLines(file_connect, n = 1)
+
+  x <- TRUE
+  i = 0
+  # read station name
+  name <- substring(readLines(file_connect, n = 1), 7)
+  index <- which(metadata$station_name == name)
+  if (length(index) == 1) {
+    regine <- metadata$regine_main[index]
+  } else {
+    regine <- "NA"
+  }
+
+
+  while (x == TRUE) {
+    # skip 3 lines
+    readLines(file_connect, n = 3)
+    # get indices
+    j <- i * 30
+    k <- j + 21
+    l <- k + 9
+
+    station_name[(j+1): l] <- rep(name, 30)
+    regine_main[(j+1): l] <- rep(regine, 30)
+    temp <- read.table(file_connect, nrows = 21)
+
+    time_vec[(j+1):k] <- temp[, 1]
+    precip[(j+1):k] <- temp[, 2]
+    temperature[(j+1):k] <- temp[, 3]
+    snow_storage[(j+1):k] <- temp[, 4]
+    modelled[(j+1):k] <- temp[, 5]
+    measured[(j+1):k] <- temp[, 6]
+    # Skip the line that separate past and forecast
+    readLines(file_connect, n = 1)
+    temp <- read.table(file_connect, nrows = 9)
+
+    time_vec[(k+1):l] <- temp[, 1]
+    precip[(k+1):l] <- temp[, 2]
+    temperature[(k+1):l] <- temp[, 3]
+    snow_storage[(k+1):l] <- temp[, 4]
+    modelled[(k+1):l] <- temp[, 5]
+    measured[(k+1):l] <- temp[, 6]
+
+    # skip 2 lines before next station
+    readLines(file_connect, n = 2)
+
+    station_line <- readLines(file_connect, n = 1)
+    x <- grepl("Felt", station_line)
+
+    name <- substring(station_line, 7)
+    index <- which(metadata$station_name == name)
+    if (length(index) == 1) {
+      regine <- metadata$regine_main[index]
+    } else {
+      regine <- "NA"
+    }
+
+    if (length(x) == 0) {break}
+    # current_line_old <- current_line
+    i <- i + 1
+  }
+
+  HBV <- data.frame(regine_main = regine_main,
+                    time_vec = time_vec,
+                    precip = precip,
+                    temperature = temperature,
+                    snow_storage = snow_storage,
+                    modelled = modelled,
+                    measured = measured)
+  HBV <- tbl_df(HBV)
+  invisible(HBV)
+
+}
+
+
+# read_DDD <- function(path, filename) {
+#
+#   ## Reading DDD model results
+#   # Operational path is /hdata/drift/flom/DDD24h2015R/24hres.txt
+#
+#   file_connect <- file("./data/DDD24h2015R/24hres.txt", open = "rt")
+#
+#   # x <- TRUE
+#   # while (x) {
+#   # x <- !grepl(":", readLines(file_connect, n = 1))
+#   # }
+#
+#   DDD <- read.table(file_connect, sep = "\t", fill = TRUE)
+#   DDD2 <- head(test, 30L)  # To keep the data from only 1 station
+#   close(file_connect)
+#
+# }
+#
+# read_ODM <- function(path, filename) {
+#
+#   ## Reading ODM model results. There is a folder per station.
+#   # Operational path is (for 1st station only):
+#   # /hdata/drift/flood/H-VEPS02/simu_hbv_elev_24h/AAMOT_ELEV_24h/InputTimeSeries.txt
+#   file_connect <- file("./data/flood/H-VEPS02/simu_hbv_elev_24h/AAMOT_ELEV_24h/InputTimeSeries.txt", open = "rt")
+#   readLines(file_connect, n = 6)
+#   # DATE / TEMP / PRECIP / TEMP / PRECIP / PRECIP / TEMP / DISCHARGE
+#   ODM <- read.table(file_connect, sep = "", fill = TRUE)
+#   colnames(ODM) <-  c("DATE", "TEMP", "PRECIP", "TEMP", "PRECIP", "PRECIP", "TEMP", "DISCHARGE")
+# }
+
+
+
+
+

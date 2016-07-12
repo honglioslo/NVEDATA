@@ -234,7 +234,7 @@ load_single_wsh <- function(regine_main, grid_data) {
 #' @import dplyr
 #' @export
 
-read_HBV_data <- function(path = './data/usikkerhet_grd/utskrift', filename = "vfpost_usikkerhet.txt") {
+read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskrift", "vfpost_usikkerhet.txt", package = "NVEDATA")) {
 
   # path_50 <- '../Flood_forecasting/data/usikkerhet_grd/ut_test'
   metadata <- get_metadata()
@@ -242,8 +242,7 @@ read_HBV_data <- function(path = './data/usikkerhet_grd/utskrift', filename = "v
 
 #   path <- '../Flood_forecasting/data/usikkerhet_grd/utskrift'
 #   filename <- "vfpost_usikkerhet.txt"
-
-  filename <- paste(path, "/", filename, sep = "")
+  # filename <- paste(path, "/", filename, sep = "")
 
   file_connect <- file(filename, open = "rt")
 
@@ -343,15 +342,14 @@ read_HBV_data <- function(path = './data/usikkerhet_grd/utskrift', filename = "v
 #' @import dplyr
 #' @export
 
-read_HBV50_data <- function(path = './data/usikkerhet_grd/ut_test', filename = "vfpost_usikkerhet.txt") {
+read_HBV50_data <- function(filename = system.file("demodata/usikkerhet_grd/ut_test", "vfpost_usikkerhet.txt", package = "NVEDATA")) {
 
   metadata <- get_metadata()
   metadata$station_name <- tolower(metadata$station_name)
 
-  #   path <- '../Flood_forecasting/data/usikkerhet_grd/utskrift'
+  #   path <- '../Flood_forecasting/data/usikkerhet_grd/ut_test'
   #   filename <- "vfpost_usikkerhet.txt"
-
-  filename <- paste(path, "/", filename, sep = "")
+  # filename <- paste(path, "/", filename, sep = "")
 
   file_connect <- file(filename, open = "rt")
 

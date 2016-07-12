@@ -240,8 +240,8 @@ read_HBV_data <- function(path = '../Flood_forecasting/data/usikkerhet_grd/utskr
   metadata <- get_metadata()
   metadata$station_name <- tolower(metadata$station_name)
 
-#   path <- '../Flood_forecasting/data/usikkerhet_grd/utskrift'
-#   filename <- "vfpost_usikkerhet.txt"
+  path <- '../Flood_forecasting/data/usikkerhet_grd/utskrift'
+  filename <- "vfpost_usikkerhet.txt"
 
   filename <- paste(path, "/", filename, sep = "")
 
@@ -282,8 +282,11 @@ read_HBV_data <- function(path = '../Flood_forecasting/data/usikkerhet_grd/utskr
     station_name[(j+1): l] <- rep(name, 30)
     regine_main[(j+1): l] <- rep(regine, 30)
     temp <- read.table(file_connect, nrows = 21)
-
-    time_vec[(j+1):k] <- temp[, 1]
+    # Time appears as DD/MM-YYYY
+    year <- substring(temp[,1], 7, 10)
+    month <- substring(temp[,1], 4, 5)
+    day <- substring(temp[,1], 1, 2)
+    time_vec[(j+1):k] <- paste(year, "-", month, "-", day, sep = "")
     precip[(j+1):k] <- temp[, 2]
     temperature[(j+1):k] <- temp[, 3]
     snow_storage[(j+1):k] <- temp[, 4]
@@ -387,8 +390,11 @@ read_HBV50_data <- function(path = '../Flood_forecasting/data/usikkerhet_grd/ut_
     station_name[(j+1): l] <- rep(name, 30)
     regine_main[(j+1): l] <- rep(regine, 30)
     temp <- read.table(file_connect, nrows = 21)
-
-    time_vec[(j+1):k] <- temp[, 1]
+    # Time appears as DD/MM-YYYY
+    year <- substring(temp[,1], 7, 10)
+    month <- substring(temp[,1], 4, 5)
+    day <- substring(temp[,1], 1, 2)
+    time_vec[(j+1):k] <- paste(year, "-", month, "-", day, sep = "")
     precip[(j+1):k] <- temp[, 2]
     temperature[(j+1):k] <- temp[, 3]
     snow_storage[(j+1):k] <- temp[, 4]

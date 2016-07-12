@@ -19,9 +19,7 @@ load_flood_data(regine_main)
 A list with data for each station
 }
 \description{
-Runoff values stored on date yyyy-mm-dd are valid for the period from yyyy-mm-dd 00:00 to yyyy-mm-dd+1 00:00
-
-Meteorological values stored on date yyyy-mm-dd are valid for the period from yyyy-mm-dd-1 06:00 to yyyy-mm-dd 06:00
+Loads flood forecasting data for all available models
 }
 \examples{
 regine_main <- c('1.48','1.49','1.50')

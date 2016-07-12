@@ -234,14 +234,14 @@ load_single_wsh <- function(regine_main, grid_data) {
 #' @import dplyr
 #' @export
 
-read_HBV_data <- function(path = '../Flood_forecasting/data/usikkerhet_grd/utskrift', filename = "vfpost_usikkerhet.txt") {
+read_HBV_data <- function(path = './data/usikkerhet_grd/utskrift', filename = "vfpost_usikkerhet.txt") {
 
   # path_50 <- '../Flood_forecasting/data/usikkerhet_grd/ut_test'
   metadata <- get_metadata()
   metadata$station_name <- tolower(metadata$station_name)
 
-  path <- '../Flood_forecasting/data/usikkerhet_grd/utskrift'
-  filename <- "vfpost_usikkerhet.txt"
+#   path <- '../Flood_forecasting/data/usikkerhet_grd/utskrift'
+#   filename <- "vfpost_usikkerhet.txt"
 
   filename <- paste(path, "/", filename, sep = "")
 
@@ -343,7 +343,7 @@ read_HBV_data <- function(path = '../Flood_forecasting/data/usikkerhet_grd/utskr
 #' @import dplyr
 #' @export
 
-read_HBV50_data <- function(path = '../Flood_forecasting/data/usikkerhet_grd/ut_test', filename = "vfpost_usikkerhet.txt") {
+read_HBV50_data <- function(path = './data/usikkerhet_grd/ut_test', filename = "vfpost_usikkerhet.txt") {
 
   metadata <- get_metadata()
   metadata$station_name <- tolower(metadata$station_name)

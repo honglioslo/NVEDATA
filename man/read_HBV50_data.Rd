@@ -4,7 +4,7 @@
 \alias{read_HBV50_data}
 \title{Read HBV50 modelling results}
 \usage{
-read_HBV50_data(path = "../Flood_forecasting/data/usikkerhet_grd/ut_test",
+read_HBV50_data(path = "./data/usikkerhet_grd/ut_test",
   filename = "vfpost_usikkerhet.txt")
 }
 \arguments{

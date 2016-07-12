@@ -31,5 +31,8 @@ res <- load_flood_data(meta_data$regine_main)
 which(meta_data$br9_Flomvarsling == "Y")
 # Not many of them work. For exmaple 41 and 42 work so to see some modelling results you can do
 res[[41]]$HBV$modelled
+# To plot with the dates, we have to use the lubridate package
+library('lubridate')
+plot(ymd(res[[41]]$HBV$time_vec), res[[41]]$HBV$modelled)
 }
 

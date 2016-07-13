@@ -258,9 +258,6 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
   modelled_L90 <- c()
   modelled_H50 <- c()
   modelled_L50 <- c()
-
-
-
   measured <- c()
 
 # skip 1 line
@@ -274,7 +271,6 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
 
   if (length(index) >= 1) {
     regine <- regine_ref_nb[index]
-    # regine <- metadata$regine_main[index]
   } else {
     regine <- "NA"
   }

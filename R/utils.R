@@ -236,13 +236,14 @@ load_single_wsh <- function(regine_main, grid_data) {
 
 read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskrift", "vfpost_usikkerhet.txt", package = "NVEDATA")) {
 
-  # path_50 <- '../Flood_forecasting/data/usikkerhet_grd/ut_test'
-  metadata <- get_metadata()
-  metadata$station_name <- tolower(metadata$station_name)
+  # Get the regine numbers related to the station names in the HBV output file
+  station_ref <- read.table('../Flood_forecasting/data/usikkerhet_grd/HbvFelt147.txt')
+  regine_ref_nb <- paste(station_ref$V1, ".", station_ref$V2, sep = "")
+  station_ref_name <- station_ref$V5
 
-#   path <- '../Flood_forecasting/data/usikkerhet_grd/utskrift'
+#   path <- '../Flood_forecasting/data/usikkerhet_grd/utskrift'  # /ut_test for HBV50
 #   filename <- "vfpost_usikkerhet.txt"
-  # filename <- paste(path, "/", filename, sep = "")
+#   filename <- paste(path, "/", filename, sep = "")
 
   file_connect <- file(filename, open = "rt")
 
@@ -253,6 +254,13 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
   temperature <- c()
   snow_storage <- c()
   modelled <- c()
+  modelled_H90 <- c()
+  modelled_L90 <- c()
+  modelled_H50 <- c()
+  modelled_L50 <- c()
+
+
+
   measured <- c()
 
 # skip 1 line
@@ -262,12 +270,15 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
   i = 0
   # read station name
   name <- substring(readLines(file_connect, n = 1), 7)
-  index <- which(metadata$station_name == name)
-  if (length(index) == 1) {
-    regine <- metadata$regine_main[index]
+  index <- which(station_ref_name == name)
+
+  if (length(index) >= 1) {
+    regine <- regine_ref_nb[index]
+    # regine <- metadata$regine_main[index]
   } else {
     regine <- "NA"
-    }
+  }
+
 
 
   while (x == TRUE) {
@@ -280,6 +291,8 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
 
     station_name[(j+1): l] <- rep(name, 30)
     regine_main[(j+1): l] <- rep(regine, 30)
+
+    ## PAST
     temp <- read.table(file_connect, nrows = 21)
     # Time appears as DD/MM-YYYY
     year <- substring(temp[,1], 7, 10)
@@ -289,125 +302,30 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
     precip[(j+1):k] <- temp[, 2]
     temperature[(j+1):k] <- temp[, 3]
     snow_storage[(j+1):k] <- temp[, 4]
-    modelled[(j+1):k] <- temp[, 5]
+    modelled[(j+1):k] <- rep(NA, 21)
+    modelled_H90[(j+1):k] <- rep(NA, 21)
+    modelled_L90[(j+1):k] <- rep(NA, 21)
+    modelled_H50[(j+1):k] <- rep(NA, 21)
+    modelled_L50[(j+1):k] <- rep(NA, 21)
     measured[(j+1):k] <- temp[, 6]
+
     # Skip the line that separate past and forecast
     readLines(file_connect, n = 1)
+    ## FUTURE
     temp <- read.table(file_connect, nrows = 9)
-
-    time_vec[(k+1):l] <- temp[, 1]
-    precip[(k+1):l] <- temp[, 2]
-    temperature[(k+1):l] <- temp[, 3]
-    snow_storage[(k+1):l] <- temp[, 4]
-    modelled[(k+1):l] <- temp[, 5]
-    measured[(k+1):l] <- temp[, 6]
-
-    # skip 2 lines before next station
-    readLines(file_connect, n = 2)
-
-    station_line <- readLines(file_connect, n = 1)
-    x <- grepl("Felt", station_line)
-
-    name <- substring(station_line, 7)
-    index <- which(metadata$station_name == name)
-    if (length(index) == 1) {
-      regine <- metadata$regine_main[index]
-    } else {
-      regine <- "NA"
-    }
-
-    if (length(x) == 0) {break}
-    # current_line_old <- current_line
-    i <- i + 1
-  }
-
-  HBV <- data.frame(regine_main = regine_main,
-                    time_vec = time_vec,
-                    precip = precip,
-                    temperature = temperature,
-                    snow_storage = snow_storage,
-                    modelled = modelled,
-                    measured = measured)
-  HBV <- tbl_df(HBV)
-  invisible(HBV)
-
-}
-
-
-
-#' @title Read HBV50 modelling results
-#' @param path Path to the HBV modelling results ('../Flood_forecasting/data/usikkerhet_grd/ut_test' as default)
-#' @param filename Name of the file with HBV modelling results ("vfpost_usikkerhet.txt" as default))
-#' @return A dataframe with the modelling results and parameters
-#' @import dplyr
-#' @export
-
-read_HBV50_data <- function(filename = system.file("demodata/usikkerhet_grd/ut_test", "vfpost_usikkerhet.txt", package = "NVEDATA")) {
-
-  metadata <- get_metadata()
-  metadata$station_name <- tolower(metadata$station_name)
-
-  #   path <- '../Flood_forecasting/data/usikkerhet_grd/ut_test'
-  #   filename <- "vfpost_usikkerhet.txt"
-  # filename <- paste(path, "/", filename, sep = "")
-
-  file_connect <- file(filename, open = "rt")
-
-  regine_main <- c()
-  station_name <- c()
-  time_vec <- c()
-  precip <- c()
-  temperature <- c()
-  snow_storage <- c()
-  modelled <- c()
-  measured <- c()
-
-  # skip 1 line
-  readLines(file_connect, n = 1)
-
-  x <- TRUE
-  i = 0
-  # read station name
-  name <- substring(readLines(file_connect, n = 1), 7)
-  index <- which(metadata$station_name == name)
-  if (length(index) == 1) {
-    regine <- metadata$regine_main[index]
-  } else {
-    regine <- "NA"
-  }
-
-
-  while (x == TRUE) {
-    # skip 3 lines
-    readLines(file_connect, n = 3)
-    # get indices
-    j <- i * 30
-    k <- j + 21
-    l <- k + 9
-
-    station_name[(j+1): l] <- rep(name, 30)
-    regine_main[(j+1): l] <- rep(regine, 30)
-    temp <- read.table(file_connect, nrows = 21)
-    # Time appears as DD/MM-YYYY
     year <- substring(temp[,1], 7, 10)
     month <- substring(temp[,1], 4, 5)
     day <- substring(temp[,1], 1, 2)
-    time_vec[(j+1):k] <- paste(year, "-", month, "-", day, sep = "")
-    precip[(j+1):k] <- temp[, 2]
-    temperature[(j+1):k] <- temp[, 3]
-    snow_storage[(j+1):k] <- temp[, 4]
-    modelled[(j+1):k] <- temp[, 5]
-    measured[(j+1):k] <- temp[, 6]
-    # Skip the line that separate past and forecast
-    readLines(file_connect, n = 1)
-    temp <- read.table(file_connect, nrows = 9)
-
-    time_vec[(k+1):l] <- temp[, 1]
+    time_vec[(k+1):l] <- paste(year, "-", month, "-", day, sep = "")
     precip[(k+1):l] <- temp[, 2]
     temperature[(k+1):l] <- temp[, 3]
     snow_storage[(k+1):l] <- temp[, 4]
-    modelled[(k+1):l] <- temp[, 5]
-    measured[(k+1):l] <- temp[, 6]
+    modelled[(k+1):l] <- temp[, 6]  # Model results on same collumn as measured data in the past
+    modelled_H90[(k+1):l] <- temp[, 7]
+    modelled_L90[(k+1):l] <- temp[, 8]
+    modelled_H50[(k+1):l] <- temp[, 9]
+    modelled_L50[(k+1):l] <- temp[, 10]
+    measured[(k+1):l] <- rep(NA, 9)
 
     # skip 2 lines before next station
     readLines(file_connect, n = 2)
@@ -415,30 +333,41 @@ read_HBV50_data <- function(filename = system.file("demodata/usikkerhet_grd/ut_t
     station_line <- readLines(file_connect, n = 1)
     x <- grepl("Felt", station_line)
 
+    # read station name
     name <- substring(station_line, 7)
-    index <- which(metadata$station_name == name)
-    if (length(index) == 1) {
-      regine <- metadata$regine_main[index]
+    index <- which(station_ref_name == name)
+
+    if (length(index) >= 1) {
+      regine <- regine_ref_nb[index]
+      # regine <- metadata$regine_main[index]
     } else {
       regine <- "NA"
     }
 
+    # Break it we reach the end of the file
     if (length(x) == 0) {break}
     # current_line_old <- current_line
     i <- i + 1
   }
 
   HBV <- data.frame(regine_main = regine_main,
+                    station_name = station_name,
                     time_vec = time_vec,
                     precip = precip,
                     temperature = temperature,
                     snow_storage = snow_storage,
                     modelled = modelled,
+                    modelled_H90 = modelled_H90,
+                    modelled_L90 = modelled_L90,
+                    modelled_H50 = modelled_H50,
+                    modelled_L50 = modelled_L50,
                     measured = measured)
   HBV <- tbl_df(HBV)
   invisible(HBV)
 
 }
+
+
 
 
 # read_DDD <- function(path, filename) {

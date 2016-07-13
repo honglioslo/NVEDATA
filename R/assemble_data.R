@@ -327,10 +327,9 @@ load_data_elev <- function(path_met, path_runoff, regine_main, time_vec) {
 #' res <- load_flood_data(regine_main)
 #' # Or to run for every station:
 #' res <- load_flood_data(meta_data$regine_main)
-#' # I need to check why, but many stations which should have been modelled have not been detected
 #' # To see some which stations should have been modelled do:
-#' which(meta_data$br9_Flomvarsling == "Y")
-#' # Not many of them work. For exmaple 41 and 42 work so to see some modelling results you can do
+#' which(meta_data$br23_HBV == "Y")
+#' # Most of them should work now. Let me know the ones which don't!
 #' res[[41]]$HBV$modelled
 #' # To plot with the dates, we have to use the lubridate package
 #' library('lubridate')
@@ -355,8 +354,14 @@ load_flood_data <- function(regine_main) {
 #   DDM_data <- read_DDM_data()
 #   DDD_data <- read_DDD_data()
 #   ODM_data <- read_ODM_data()
-  HBV_data <- read_HBV_data()
-  HBV50_data <- read_HBV50_data()
+
+# ## Command when running it out of package
+#   HBV_data <- read_HBV_data(filename = '../Flood_forecasting/data/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt')
+#   HBV50_data <- read_HBV_data(filename = '../Flood_forecasting/data/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt')
+
+  ## Command when running it from the package
+  HBV_data <- read_HBV_data(system.file("demodata/usikkerhet_grd/utskrift", "vfpost_usikkerhet.txt", package = "NVEDATA"))
+  HBV_data <- read_HBV_data(system.file("demodata/usikkerhet_grd/ut_test", "vfpost_usikkerhet.txt", package = "NVEDATA"))
 
   # Initilize list for one station
 

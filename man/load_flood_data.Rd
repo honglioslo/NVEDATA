@@ -26,10 +26,9 @@ regine_main <- c('1.48','1.49','1.50')
 res <- load_flood_data(regine_main)
 # Or to run for every station:
 res <- load_flood_data(meta_data$regine_main)
-# I need to check why, but many stations which should have been modelled have not been detected
 # To see some which stations should have been modelled do:
-which(meta_data$br9_Flomvarsling == "Y")
-# Not many of them work. For exmaple 41 and 42 work so to see some modelling results you can do
+which(meta_data$br23_HBV == "Y")
+# Most of them should work now. Let me know the ones which don't!
 res[[41]]$HBV$modelled
 # To plot with the dates, we have to use the lubridate package
 library('lubridate')

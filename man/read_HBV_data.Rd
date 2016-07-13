@@ -4,13 +4,13 @@
 \alias{read_HBV_data}
 \title{Read HBV modelling results}
 \usage{
-read_HBV_data(path = "./data/usikkerhet_grd/utskrift",
-  filename = "vfpost_usikkerhet.txt")
+read_HBV_data(filename = system.file("demodata/usikkerhet_grd/utskrift",
+  "vfpost_usikkerhet.txt", package = "NVEDATA"))
 }
 \arguments{
-\item{path}{Path to the HBV modelling results ('../Flood_forecasting/data/usikkerhet_grd/utskrift' as default)}
-
 \item{filename}{Name of the file with HBV modelling results ("vfpost_usikkerhet.txt" as default))}
+
+\item{path}{Path to the HBV modelling results ('../Flood_forecasting/data/usikkerhet_grd/utskrift' as default)}
 }
 \value{
 A dataframe with the modelling results and parameters

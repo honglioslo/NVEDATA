@@ -337,7 +337,7 @@ load_data_elev <- function(path_met, path_runoff, regine_main, time_vec) {
 #' @return A list with data for each station
 #' @export
 
-load_flood_data <- function(regine_main) {
+load_flood_data <- function(regine_main = meta_data$regine_main) {
 
   # Test if metadata exist for stations
   if (!all(regine_main %in% meta_data$regine_main)) {
@@ -356,12 +356,25 @@ load_flood_data <- function(regine_main) {
 #   ODM_data <- read_ODM_data()
 
 # ## Command when running it out of package
-#   HBV_data <- read_HBV_data(filename = '../Flood_forecasting/data/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt')
-#   HBV50_data <- read_HBV_data(filename = '../Flood_forecasting/data/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt')
+#   HBV_2014 <- read_HBV_data(filename = '../Flood_forecasting/data/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt')
+#   HBV_2016 <- read_HBV_data(filename = '../Flood_forecasting/data/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt')
 
   ## Command when running it from the package
-  HBV_data <- read_HBV_data(system.file("demodata/usikkerhet_grd/utskrift", "vfpost_usikkerhet.txt", package = "NVEDATA"))
-  HBV_data <- read_HBV_data(system.file("demodata/usikkerhet_grd/ut_test", "vfpost_usikkerhet.txt", package = "NVEDATA"))
+  # HBV_2014 is the origginal HBV model with the inital uncertainty model
+
+  # HBV_2016 includes uncertainty analysis on T. This model is used with P+50% and P-50% (vfp3030.txt)
+
+  HBV_2014 <- read_HBV_data(system.file("demodata/usikkerhet_grd/utskrift", "vfpost_usikkerhet.txt", package = "NVEDATA"))
+  HBV_2016 <- read_HBV_data(system.file("demodata/usikkerhet_grd/ut_test", "vfpost_usikkerhet.txt", package = "NVEDATA"))
+
+  # Create the long data frame to be later used by ggplot
+  HBV_2014_GG <- tidyr::gather(HBV_2014, key = variables, value = values, precip,
+                               temperature, snow_storage, modelled, modelled_H90, modelled_L90, modelled_H50, modelled_L50, measured)
+
+#   HBV_2016_GG <- tidyr::gather(HBV_2014, key = variables, value = values, precip,
+#                                temperature, snow_storage, modelled, modelled_H90, modelled_L90, modelled_H50, modelled_L50, measured)
+
+
 
   # Initilize list for one station
 
@@ -374,8 +387,8 @@ load_flood_data <- function(regine_main) {
 #                      DDM = dplyr::filter(DDM_data, regine_main == regine_main_in),
 #                      DDD = dplyr::filter(DDD_data, regine_main == regine_main_in),
                      # ODM = dplyr::filter(ODM_data, regine_main == regine_main_in),
-                      HBV = dplyr::filter(HBV_data, regine_main == regine_main_in),
-                      HBV50 = dplyr::filter(HBV50_data, regine_main == regine_main_in)
+                      HBV_2014 = dplyr::filter(HBV_2014, regine_main == regine_main_in),
+                      HBV_2016 = dplyr::filter(HBV_2016, regine_main == regine_main_in)
 )
 
   }
@@ -383,6 +396,10 @@ load_flood_data <- function(regine_main) {
   # Initlize data structure (lapply over level 1, all stations)
 
   data_all <- lapply(regine_main, init_list)
+
+  save(data_all, file = paste(getwd(),"/","data_all.RData", sep = ""))
+  save(HBV_2014_GG, file = paste(getwd(),"/","HBV_2014_GG.RData", sep = ""))
+
   return(data_all)
 
 }

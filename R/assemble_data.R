@@ -368,10 +368,10 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   HBV_2016 <- read_HBV_data(system.file("demodata/usikkerhet_grd/ut_test", "vfpost_usikkerhet.txt", package = "NVEDATA"))
 
   # Create the long data frame to be later used by ggplot
-  HBV_2014_GG <- tidyr::gather(HBV_2014, key = variables, value = values, precip,
+  HBV_2014 <- tidyr::gather(HBV_2014, key = variables, value = values, precip,
                                temperature, snow_storage, modelled, modelled_H90, modelled_L90, modelled_H50, modelled_L50, measured)
 
-  HBV_2016_GG <- tidyr::gather(HBV_2014, key = variables, value = values, precip,
+  HBV_2016 <- tidyr::gather(HBV_2014, key = variables, value = values, precip,
                                temperature, snow_storage, modelled, modelled_H90, modelled_L90, modelled_H50, modelled_L50, measured)
 
 
@@ -398,8 +398,8 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   data_all <- lapply(regine_main, init_list)
 
   save(data_all, file = paste(getwd(),"/","data_all.RData", sep = ""))
-  save(HBV_2014_GG, file = paste(getwd(),"/","HBV_2014_GG.RData", sep = ""))
-  save(HBV_2016_GG, file = paste(getwd(),"/","HBV_2016_GG.RData", sep = ""))
+  save(HBV_2014, file = paste(getwd(),"/","HBV_2014.RData", sep = ""))
+  save(HBV_2016, file = paste(getwd(),"/","HBV_2016.RData", sep = ""))
 
   return(data_all)
 

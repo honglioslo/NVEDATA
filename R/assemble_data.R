@@ -362,10 +362,6 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
 #   HBV_2016_PRECIP_CORRECTION <- read_HBV_P(filename = '../Flood_forecasting/data/usikkerhet_grd/ut_test/vfp3030.txt')
 
   ## Command when running it from the package
-  # HBV_2014 is the origginal HBV model with the inital uncertainty model
-
-  # HBV_2016 includes uncertainty analysis on T. This model is used with P+50% and P-50% (vfp3030.txt)
-
   HBV_2014 <- read_HBV_data(system.file("demodata/usikkerhet_grd/utskrift", "vfpost_usikkerhet.txt", package = "NVEDATA"))
   HBV_2016_INIT <- read_HBV_data(system.file("demodata/usikkerhet_grd/ut_test", "vfpost_usikkerhet.txt", package = "NVEDATA"))
   HBV_2016_PRECIP_CORRECTION <- read_HBV_P(system.file("demodata/usikkerhet_grd/ut_test", "vfp3030.txt", package = "NVEDATA"))
@@ -374,7 +370,6 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   HBV_2014 <- tidyr::gather(HBV_2014, key = Tmp, value = Values, -time, -regine_main, -station_name) %>%
     separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
-  # this is a bit risky as it assumes same stations and same time (which is the case, but...)
   HBV_2016 <- dplyr::right_join(HBV_2016_INIT, HBV_2016_PRECIP_CORRECTION, by = c("regine_main", "time"))
   HBV_2016 <- tidyr::gather(HBV_2016, key = Tmp, value = Values, -time, -regine_main, -station_name) %>%
     separate(Tmp, into = c("Type", "Variable"), sep = "_")

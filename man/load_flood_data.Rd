@@ -17,7 +17,7 @@ Default is meta_data$regine_main from the packaged meta_data}
 \item{time_vec}{Vector with dates (using format from package lubridate)}
 }
 \value{
-A list with data for each station
+Nothing Only saves .rda files to the working directory
 }
 \description{
 Loads flood forecasting data for all available models

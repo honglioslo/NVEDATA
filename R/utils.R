@@ -237,7 +237,10 @@ load_single_wsh <- function(regine_main, grid_data) {
 read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskrift", "vfpost_usikkerhet.txt", package = "NVEDATA")) {
 
   # Get the regine numbers related to the station names in the HBV output file
-  station_ref <- read.table('../Flood_forecasting/data/usikkerhet_grd/HbvFelt147.txt')
+  # station_ref <- read.table('../NVEDATA/inst/demodata/usikkerhet_grd/HbvFelt147.txt')
+
+  # Read it from the package for use anywhere
+  station_ref <- read.table(system.file("demodata/usikkerhet_grd", "HbvFelt147.txt", package = "NVEDATA"))
   regine_ref_nb <- paste(station_ref$V1, ".", station_ref$V2, sep = "")
   station_ref_name <- station_ref$V5
 
@@ -348,16 +351,16 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
 
   HBV <- data.frame(regine_main = regine_main,
                     station_name = station_name,
-                    time_vec = time_vec,
-                    precip = precip,
-                    temperature = temperature,
-                    snow_storage = snow_storage,
-                    modelled = modelled,
-                    modelled_H90 = modelled_H90,
-                    modelled_L90 = modelled_L90,
-                    modelled_H50 = modelled_H50,
-                    modelled_L50 = modelled_L50,
-                    measured = measured)
+                    time = time_vec,
+                    Input_Precip = precip,
+                    Input_Temp = temperature,
+                    State_Snow = snow_storage,
+                    Runoff_Sim = modelled,
+                    Runoff_SimH90 = modelled_H90,
+                    Runoff_SimL90 = modelled_L90,
+                    Runoff_SimH50 = modelled_H50,
+                    Runoff_SimL50 = modelled_L50,
+                    Runoff_Obs = measured)
   HBV <- tbl_df(HBV)
   invisible(HBV)
 

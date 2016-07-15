@@ -376,9 +376,11 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
 
   # Create the long data frame to be later used by ggplot
 
-  HBV_2014 <- tidyr::gather(HBV_2014, key = variables, value = values, -time, -regine_main, -station_name)
+  HBV_2014 <- tidyr::gather(HBV_2014, key = Tmp, value = Values, -time, -regine_main, -station_name) %>%
+    separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
-  HBV_2016 <- tidyr::gather(HBV_2016, key = variables, value = values, -time, -regine_main, -station_name)
+  HBV_2016 <- tidyr::gather(HBV_2016, key = Tmp, value = Values, -time, -regine_main, -station_name) %>%
+    separate(Tmp, into = c("Type", "Variable"), sep = "_")
   # %>% full_join(df_in, by= "Time")  # before filter, to put together HBV2016 with vpf3030 for example
 
 

@@ -335,7 +335,7 @@ load_data_elev <- function(path_met, path_runoff, regine_main, time_vec) {
 #' # To plot with the dates, we have to use the lubridate package
 #' library('lubridate')
 #' plot(ymd(res[[41]]$HBV$time_vec), res[[41]]$HBV$modelled)
-#' @return A list with data for each station
+#' @return Nothing Only saves .rda files to the working directory
 #' @import tidyr
 #' @export
 
@@ -357,32 +357,18 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
 #   DDD_data <- read_DDD_data()
 #   ODM_data <- read_ODM_data()
 
-  # HBV_2014 is the origginal HBV model with the inital uncertainty model
-
-  # HBV_2016 includes uncertainty analysis on T. This model is used with P+50% and P-50% (vfp3030.txt)
-
-
-# ## Command when running it locally out of package
-#   HBV_2014 <- read_HBV_data(filename = '../Flood_forecasting/data/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt')
-#   HBV_2016 <- read_HBV_data(filename = '../Flood_forecasting/data/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt')
-
   # ## Command when running it operationally
   HBV_2014 <- read_HBV_data(filename = '//hdata/drift/flom/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt')
-  HBV_2016 <- read_HBV_data(filename = '//hdata/drift/flom/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt')
+  HBV_2016_INIT <- read_HBV_data(filename = '//hdata/drift/flom/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt')
+  HBV_2016_PRECIP_CORRECTION <- read_HBV_P(filename = '//hdata/drift/flom/usikkerhet_grd/ut_test/vfp3030.txt.txt')
 
-  ## Command when running it from the package
-#   HBV_2014 <- read_HBV_data(system.file("demodata/usikkerhet_grd/utskrift", "vfpost_usikkerhet.txt", package = "NVEDATA"))
-#   HBV_2016 <- read_HBV_data(system.file("demodata/usikkerhet_grd/ut_test", "vfpost_usikkerhet.txt", package = "NVEDATA"))
-
-  # Create the long data frame to be later used by ggplot
-
+    # Create the long data frame to be later used by ggplot
   HBV_2014 <- tidyr::gather(HBV_2014, key = Tmp, value = Values, -time, -regine_main, -station_name) %>%
     separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
+  HBV_2016 <- dplyr::right_join(HBV_2016_INIT, HBV_2016_PRECIP_CORRECTION, by = c("regine_main", "time"))
   HBV_2016 <- tidyr::gather(HBV_2016, key = Tmp, value = Values, -time, -regine_main, -station_name) %>%
     separate(Tmp, into = c("Type", "Variable"), sep = "_")
-  # %>% full_join(df_in, by= "Time")  # before filter, to put together HBV2016 with vpf3030 for example
-
 
   # Function to fill up the list for 1 station
 

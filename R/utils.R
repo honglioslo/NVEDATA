@@ -301,7 +301,7 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
     precip[(j+1):k] <- temp[, 2]
     temperature[(j+1):k] <- temp[, 3]
     snow_storage[(j+1):k] <- temp[, 4]
-    modelled[(j+1):k] <- rep(NA, 21)
+    modelled[(j+1):k] <- temp[, 5]  # This is the simulated discharge during the past period
     modelled_H90[(j+1):k] <- rep(NA, 21)
     modelled_L90[(j+1):k] <- rep(NA, 21)
     modelled_H50[(j+1):k] <- rep(NA, 21)

@@ -371,8 +371,8 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   HBV_2014_GG <- tidyr::gather(HBV_2014, key = variables, value = values, precip,
                                temperature, snow_storage, modelled, modelled_H90, modelled_L90, modelled_H50, modelled_L50, measured)
 
-#   HBV_2016_GG <- tidyr::gather(HBV_2014, key = variables, value = values, precip,
-#                                temperature, snow_storage, modelled, modelled_H90, modelled_L90, modelled_H50, modelled_L50, measured)
+  HBV_2016_GG <- tidyr::gather(HBV_2014, key = variables, value = values, precip,
+                               temperature, snow_storage, modelled, modelled_H90, modelled_L90, modelled_H50, modelled_L50, measured)
 
 
 
@@ -399,6 +399,7 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
 
   save(data_all, file = paste(getwd(),"/","data_all.RData", sep = ""))
   save(HBV_2014_GG, file = paste(getwd(),"/","HBV_2014_GG.RData", sep = ""))
+  save(HBV_2016_GG, file = paste(getwd(),"/","HBV_2016_GG.RData", sep = ""))
 
   return(data_all)
 

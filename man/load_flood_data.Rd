@@ -4,7 +4,7 @@
 \alias{load_flood_data}
 \title{Load flood data for a set of stations}
 \usage{
-load_flood_data(regine_main)
+load_flood_data(regine_main = meta_data$regine_main)
 }
 \arguments{
 \item{regine_main}{Vector with stations (regine_area and main_no seperated by a full stop)}

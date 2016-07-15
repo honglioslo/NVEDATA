@@ -348,23 +348,151 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
 
   HBV <- data.frame(regine_main = regine_main,
                     station_name = station_name,
-                    time_vec = time_vec,
-                    precip = precip,
-                    temperature = temperature,
-                    snow_storage = snow_storage,
-                    modelled = modelled,
-                    modelled_H90 = modelled_H90,
-                    modelled_L90 = modelled_L90,
-                    modelled_H50 = modelled_H50,
-                    modelled_L50 = modelled_L50,
-                    measured = measured)
+                    time = time_vec,
+                    Input_Precip = precip,
+                    Input_Temp = temperature,
+                    State_Snow = snow_storage,
+                    Runoff_Sim = modelled,
+                    Runoff_SimH90 = modelled_H90,
+                    Runoff_SimL90 = modelled_L90,
+                    Runoff_SimH50 = modelled_H50,
+                    Runoff_SimL50 = modelled_L50,
+                    Runoff_Obs = measured)
   HBV <- tbl_df(HBV)
   invisible(HBV)
 
 }
 
 
+#' @title Read HBV modelling results for -+ 50 percent precipitation
+#' @param path Path to the HBV modelling results ('../Flood_forecasting/data/usikkerhet_grd/utskrift' as default)
+#' @param filename Name of the file with HBV modelling results ("vfpost_usikkerhet.txt" as default))
+#' @return A dataframe with the modelling results and parameters
+#' @import dplyr
+#' @export
 
+read_HBV_P <- function(filename) {
+
+  # Get the regine numbers related to the station names in the HBV output file
+  station_ref <- read.table('../Flood_forecasting/data/usikkerhet_grd/HbvFelt147.txt')
+  regine_ref_nb <- paste(station_ref$V1, ".", station_ref$V2, sep = "")
+  station_ref_name <- station_ref$V5
+
+  #   path <- '../Flood_forecasting/data/usikkerhet_grd/utskrift'  # /ut_test for HBV50
+  #   filename <- "vfpost_usikkerhet.txt"
+  #   filename <- paste(path, "/", filename, sep = "")
+
+  file_connect <- file(filename, open = "rt")
+
+  regine_main <- c()
+  station_name <- c()
+  time_vec <- c()
+  precip <- c()
+  temperature <- c()
+  snow_storage <- c()
+  modelled <- c()
+  modelled_M50 <- c()
+  modelled_P50 <- c()
+  measured <- c()
+
+  # skip 1 line
+  readLines(file_connect, n = 1)
+
+  x <- TRUE
+  i = 0
+  # read station name
+  name <- substring(readLines(file_connect, n = 1), 7)
+  index <- which(station_ref_name == name)
+
+  if (length(index) >= 1) {
+    regine <- regine_ref_nb[index]
+  } else {
+    regine <- "NA"
+  }
+
+
+
+  while (x == TRUE) {
+    # skip 3 lines
+    readLines(file_connect, n = 3)
+    # get indices
+    j <- i * 30
+    k <- j + 21
+    l <- k + 9
+
+    station_name[(j+1): l] <- rep(name, 30)
+    regine_main[(j+1): l] <- rep(regine, 30)
+
+    ## PAST
+    temp <- read.table(file_connect, nrows = 21)
+    # Time appears as DD/MM-YYYY
+    year <- substring(temp[,1], 7, 10)
+    month <- substring(temp[,1], 4, 5)
+    day <- substring(temp[,1], 1, 2)
+    time_vec[(j+1):k] <- paste(year, "-", month, "-", day, sep = "")
+    precip[(j+1):k] <- temp[, 2]
+    temperature[(j+1):k] <- temp[, 3]
+    snow_storage[(j+1):k] <- temp[, 4]
+    modelled[(j+1):k] <- temp[, 5]  # This is the simulated discharge during the past period
+    modelled_M50[(j+1):k] <- rep(NA, 21)
+    modelled_P50[(j+1):k] <- rep(NA, 21)
+
+    measured[(j+1):k] <- temp[, 6]
+
+    # Skip the line that separate past and forecast
+    readLines(file_connect, n = 1)
+    ## FUTURE
+    temp <- read.table(file_connect, nrows = 9)
+    year <- substring(temp[,1], 7, 10)
+    month <- substring(temp[,1], 4, 5)
+    day <- substring(temp[,1], 1, 2)
+    time_vec[(k+1):l] <- paste(year, "-", month, "-", day, sep = "")
+    precip[(k+1):l] <- temp[, 2]
+    temperature[(k+1):l] <- temp[, 3]
+    snow_storage[(k+1):l] <- temp[, 4]
+    modelled[(k+1):l] <- temp[, 6]  # Model results on same collumn as measured data in the past
+    modelled_M50[(k+1):l] <- temp[, 7]
+    modelled_P50[(k+1):l] <- temp[, 8]
+    measured[(k+1):l] <- rep(NA, 9)
+
+    # skip 1 lines before next station
+    readLines(file_connect, n = 1)
+
+    station_line <- readLines(file_connect, n = 1)
+    x <- grepl("Felt", station_line)
+
+    # read station name
+    name <- substring(station_line, 7)
+    index <- which(station_ref_name == name)
+
+    if (length(index) >= 1) {
+      regine <- regine_ref_nb[index]
+      # regine <- metadata$regine_main[index]
+    } else {
+      regine <- "NA"
+    }
+
+    # Break it we reach the end of the file
+    if (length(x) == 0) {break}
+    # current_line_old <- current_line
+    i <- i + 1
+  }
+
+  HBV <- data.frame(regine_main = regine_main,
+                    # station_name = station_name,
+                    time = time_vec,
+#                     Input_Precip = precip,
+#                     Input_Temp = temperature,
+#                     State_Snow = snow_storage,
+#                     Runoff_Sim = modelled,
+                    Runoff_SimPrecipM50 = modelled_M50,
+                    Runoff_SimPrecipP50 = modelled_P50)
+                    # Runoff_Obs = measured)
+
+  HBV <- tbl_df(HBV)
+  invisible(HBV)
+
+}
 
 # read_DDD <- function(path, filename) {
 #

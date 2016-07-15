@@ -362,9 +362,13 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   # HBV_2016 includes uncertainty analysis on T. This model is used with P+50% and P-50% (vfp3030.txt)
 
 
-# ## Command when running it out of package
-  HBV_2014 <- read_HBV_data(filename = '../Flood_forecasting/data/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt')
-  HBV_2016 <- read_HBV_data(filename = '../Flood_forecasting/data/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt')
+# ## Command when running it locally out of package
+#   HBV_2014 <- read_HBV_data(filename = '../Flood_forecasting/data/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt')
+#   HBV_2016 <- read_HBV_data(filename = '../Flood_forecasting/data/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt')
+
+  # ## Command when running it operationally
+  HBV_2014 <- read_HBV_data(filename = '//hdata/drift/flom/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt')
+  HBV_2016 <- read_HBV_data(filename = '//hdata/drift/flom/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt')
 
   ## Command when running it from the package
 #   HBV_2014 <- read_HBV_data(system.file("demodata/usikkerhet_grd/utskrift", "vfpost_usikkerhet.txt", package = "NVEDATA"))

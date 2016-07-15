@@ -4,10 +4,11 @@
 \alias{load_flood_data}
 \title{Load flood data for a set of stations}
 \usage{
-load_flood_data(regine_main)
+load_flood_data(regine_main = meta_data$regine_main)
 }
 \arguments{
-\item{regine_main}{Vector with stations (regine_area and main_no seperated by a full stop)}
+\item{regine_main}{Vector with stations (regine_area and main_no seperated by a full stop).
+Default is meta_data$regine_main from the packaged meta_data}
 
 \item{path_met}{Path to folder with gridded meteorological data (requires netcdf files, and SeNorge version 2.0 and 2.1)}
 

@@ -375,11 +375,19 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
 #   HBV_2016 <- read_HBV_data(system.file("demodata/usikkerhet_grd/ut_test", "vfpost_usikkerhet.txt", package = "NVEDATA"))
 
   # Create the long data frame to be later used by ggplot
+<<<<<<< HEAD
   HBV_2014_GG <- tidyr::gather(HBV_2014, key = Tmp, value = values, -time, -regine_main, -station_name)   %>%
     tidyr::separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
   HBV_2016_GG <- tidyr::gather(HBV_2016, key = Tmp, value = values, -time, -regine_main, -station_name)   %>%
     tidyr::separate(Tmp, into = c("Type", "Variable"), sep = "_")
+=======
+  HBV_2014 <- tidyr::gather(HBV_2014, key = variables, value = values, precip,
+                               temperature, snow_storage, modelled, modelled_H90, modelled_L90, modelled_H50, modelled_L50, measured)
+
+  HBV_2016 <- tidyr::gather(HBV_2014, key = variables, value = values, precip,
+                               temperature, snow_storage, modelled, modelled_H90, modelled_L90, modelled_H50, modelled_L50, measured)
+>>>>>>> flom_branch
 
   # %>% full_join(df_in, by= "Time")  # before filter, to put together HBV2016 with vpf3030 for example
 
@@ -406,9 +414,14 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
 
   # Save the files to the working directory for later use in Shiny app
   save(data_all, file = paste(getwd(),"/","data_all.RData", sep = ""))
+<<<<<<< HEAD
   save(meta_data, file = paste(getwd(),"/","meta_data.rda", sep = ""))
   save(HBV_2014_GG, file = paste(getwd(),"/","HBV_2014_GG.RData", sep = ""))
   save(HBV_2016_GG, file = paste(getwd(),"/","HBV_2016_GG.RData", sep = ""))
+=======
+  save(HBV_2014, file = paste(getwd(),"/","HBV_2014.RData", sep = ""))
+  save(HBV_2016, file = paste(getwd(),"/","HBV_2016.RData", sep = ""))
+>>>>>>> flom_branch
 
   invisible(data_all)
 

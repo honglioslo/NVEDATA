@@ -507,7 +507,7 @@ read_HBV_P <- function(filename = system.file("demodata/usikkerhet_grd/ut_test",
 #' @import dplyr
 #' @export
 
-read_DDD <- function(filename = system.file("demodata/DDD24h2015R/24hres.txt", "vfpost_usikkerhet.txt", package = "NVEDATA")) {
+read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt", package = "NVEDATA")) {
 
   # Get the regine numbers related to the station names in the HBV output file
 #   station_ref <- read.table('../Flood_forecasting/data/usikkerhet_grd/HbvFelt147.txt')
@@ -530,12 +530,16 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R/24hres.txt", "
   x <- TRUE
   i = 0
 
-  while (x == TRUE) {
-    station_line <-   substring(readLines(file_connect, n = 1),2)
-    regine <- strsplit(station_line, " ")
-    regine_main[(j+1): l] <- rep(regine, 30)
+  station_line <-   substring(readLines(file_connect, n = 1),2)
+  regine <- strsplit(station_line, " ")
 
-     ## PAST
+  while (x == TRUE) {
+    # get indices
+    j <- i * 30
+    k <- j + 30
+
+    regine_main[(j+1):k] <- rep(regine, 30)
+
     temp <- read.table(file_connect, nrows = 30)
     # Time appears as DD/MM-YYYY
     year <- temp[,1]
@@ -550,8 +554,12 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R/24hres.txt", "
     gw_storage[(j+1):k] <- temp[, 11]
     soil_moisture[(j+1):k] <- temp[, 13]
 
+    station_line <-   substring(readLines(file_connect, n = 1),2)
+    regine <- strsplit(station_line, " ")
+    x <- grepl(" ", regine)
     # Break it we reach the end of the file
     if (length(x) == 0) {break}
+
     # current_line_old <- current_line
     i <- i + 1
   }

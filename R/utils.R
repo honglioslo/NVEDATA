@@ -515,7 +515,6 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R/24hres.txt", "
 #   station_ref_name <- station_ref$V5
 
   ## Reading DDD model results
-  file_connect <- file(".inst/demodata/DDD24h2015R/24hres.txt", open = "rt")
   file_connect <- file(filename, open = "rt")
 
   regine_main <- c()

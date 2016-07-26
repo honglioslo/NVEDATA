@@ -501,15 +501,12 @@ read_HBV_P <- function(filename = system.file("demodata/usikkerhet_grd/ut_test",
 
 }
 
-<<<<<<< HEAD
-=======
 #' @title Read DDD modelling results
 #' @param filename Full path and name of the file with DDD modelling results ("demodata/DDD24h2015R/24hres.txt" as default))
 #' @return A dataframe with the modelling results and parameters
 #' @import dplyr
 #' @export
 
->>>>>>> refs/remotes/origin/flom_branch
 read_DDD <- function(filename = system.file("demodata/DDD24h2015R/24hres.txt", "vfpost_usikkerhet.txt", package = "NVEDATA")) {
 
   # Get the regine numbers related to the station names in the HBV output file

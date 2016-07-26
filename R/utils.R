@@ -237,12 +237,7 @@ load_single_wsh <- function(regine_main, grid_data) {
 read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskrift", "vfpost_usikkerhet.txt", package = "NVEDATA")) {
 
   # Get the regine numbers related to the station names in the HBV output file
-<<<<<<< HEAD
-  # station_ref <- read.table('../NVEDATA/inst/demodata/usikkerhet_grd/HbvFelt147.txt')
-
   # Read it from the package for use anywhere
-=======
->>>>>>> refs/remotes/origin/flom_branch
   station_ref <- read.table(system.file("demodata/usikkerhet_grd", "HbvFelt147.txt", package = "NVEDATA"))
   regine_ref_nb <- paste(station_ref$V1, ".", station_ref$V2, sep = "")
   station_ref_name <- station_ref$V5
@@ -508,11 +503,7 @@ read_HBV_P <- function(filename) {
 
 }
 
-################## TO DO
-
 read_DDD <- function(filename = system.file("demodata/DDD24h2015R/24hres.txt", "vfpost_usikkerhet.txt", package = "NVEDATA")) {
-
-
 
   # Get the regine numbers related to the station names in the HBV output file
 #   station_ref <- read.table('../Flood_forecasting/data/usikkerhet_grd/HbvFelt147.txt')

@@ -548,7 +548,7 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
     time_vec[(j+1):k] <- paste(year, "-", month, "-", day, sep = "")
     precip[(j+1):k] <- temp[, 5]
     temperature[(j+1):k] <- temp[, 6]
-    measured[(j+1):(j+20)] <- temp[, 7]
+    measured[(j+1):(j+20)] <- temp[1:20, 7]
     measured[(j+21):k] <- rep(NA, 10)
     modelled[(j+1):k] <- temp[, 8]
     snow_storage[(j+1):k] <- temp[, 10]

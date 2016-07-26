@@ -353,10 +353,10 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   }
 
   ## Command when running it from the package
-  HBV_2014 <- read_HBV_data(system.file("demodata/usikkerhet_grd/utskrift", "vfpost_usikkerhet.txt", package = "NVEDATA"))
-  HBV_2016_INIT <- read_HBV_data(system.file("demodata/usikkerhet_grd/ut_test", "vfpost_usikkerhet.txt", package = "NVEDATA"))
-  HBV_2016_PRECIP_CORRECTION <- read_HBV_P(system.file("demodata/usikkerhet_grd/ut_test", "vfp3030.txt", package = "NVEDATA"))
-  DDD <- read_DDD()
+  HBV_2014 <- read_HBV_data(filename = '//hdata/drift/flom/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt')
+  HBV_2016_INIT <- read_HBV_data(filename = '//hdata/drift/flom/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt')
+  HBV_2016_PRECIP_CORRECTION <- read_HBV_P(filename = '//hdata/drift/flom/usikkerhet_grd/ut_test/vfp3030.txt')
+  DDD <- read_DDD(filename = '//hdata/drift/flom//DDD24h2015R/24hres.txt')
 
     # Create the long data frame to be later used by ggplot
   HBV_2014 <- tidyr::gather(HBV_2014, key = Tmp, value = Values, -time, -regine.main, -station.name) %>%

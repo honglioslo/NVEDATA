@@ -237,7 +237,7 @@ load_single_wsh <- function(regine_main, grid_data) {
 read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskrift", "vfpost_usikkerhet.txt", package = "NVEDATA")) {
 
   # Get the regine numbers related to the station names in the HBV output file
-  station_ref <- read.table('../Flood_forecasting/data/usikkerhet_grd/HbvFelt147.txt')
+  station_ref <- read.table(system.file("demodata/usikkerhet_grd", "HbvFelt147.txt", package = "NVEDATA"))
   regine_ref_nb <- paste(station_ref$V1, ".", station_ref$V2, sep = "")
   station_ref_name <- station_ref$V5
 
@@ -253,7 +253,8 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
   precip <- c()
   temperature <- c()
   snow_storage <- c()
-  modelled <- c()
+  modelled_raw <- c()
+  modelled_corr <- c()
   modelled_H90 <- c()
   modelled_L90 <- c()
   modelled_H50 <- c()
@@ -298,7 +299,8 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
     precip[(j+1):k] <- temp[, 2]
     temperature[(j+1):k] <- temp[, 3]
     snow_storage[(j+1):k] <- temp[, 4]
-    modelled[(j+1):k] <- temp[, 5]  # This is the simulated discharge during the past period
+    modelled_raw[(j+1):k] <- temp[, 5]  # This is the simulated discharge during the past period without data assimilation
+    modelled_corr[(j+1):k] <- rep(NA, 21)
     modelled_H90[(j+1):k] <- rep(NA, 21)
     modelled_L90[(j+1):k] <- rep(NA, 21)
     modelled_H50[(j+1):k] <- rep(NA, 21)
@@ -316,7 +318,8 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
     precip[(k+1):l] <- temp[, 2]
     temperature[(k+1):l] <- temp[, 3]
     snow_storage[(k+1):l] <- temp[, 4]
-    modelled[(k+1):l] <- temp[, 6]  # Model results on same collumn as measured data in the past
+    modelled_raw[(k+1):l] <- temp[, 5]  # This is the simulated discharge during the forecast period without data assimilation
+    modelled_corr[(k+1):l] <- temp[, 6] # This is the modelled forecast after correction by observed data
     modelled_H90[(k+1):l] <- temp[, 7]
     modelled_L90[(k+1):l] <- temp[, 8]
     modelled_H50[(k+1):l] <- temp[, 9]
@@ -352,7 +355,8 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
                     Input_Precip = precip,
                     Input_Temp = temperature,
                     State_Snow = snow_storage,
-                    Runoff_Sim = modelled,
+                    Runoff_SimRaw = modelled_raw,
+                    Runoff_SimCorr = modelled_corr,
                     Runoff_SimH90 = modelled_H90,
                     Runoff_SimL90 = modelled_L90,
                     Runoff_SimH50 = modelled_H50,
@@ -374,7 +378,7 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
 read_HBV_P <- function(filename) {
 
   # Get the regine numbers related to the station names in the HBV output file
-  station_ref <- read.table('../Flood_forecasting/data/usikkerhet_grd/HbvFelt147.txt')
+  station_ref <- read.table(system.file("demodata/usikkerhet_grd", "HbvFelt147.txt", package = "NVEDATA"))
   regine_ref_nb <- paste(station_ref$V1, ".", station_ref$V2, sep = "")
   station_ref_name <- station_ref$V5
 
@@ -390,7 +394,8 @@ read_HBV_P <- function(filename) {
   precip <- c()
   temperature <- c()
   snow_storage <- c()
-  modelled <- c()
+  modelled_raw <- c()
+  modelled_corr <- c()
   modelled_M50 <- c()
   modelled_P50 <- c()
   measured <- c()
@@ -433,7 +438,8 @@ read_HBV_P <- function(filename) {
     precip[(j+1):k] <- temp[, 2]
     temperature[(j+1):k] <- temp[, 3]
     snow_storage[(j+1):k] <- temp[, 4]
-    modelled[(j+1):k] <- temp[, 5]  # This is the simulated discharge during the past period
+    modelled_raw[(j+1):k] <- temp[, 5]  # This is the simulated discharge during the past period without data assmilation
+    modelled_corr[(j+1):k] <- rep(NA, 21)
     modelled_M50[(j+1):k] <- rep(NA, 21)
     modelled_P50[(j+1):k] <- rep(NA, 21)
 
@@ -450,7 +456,8 @@ read_HBV_P <- function(filename) {
     precip[(k+1):l] <- temp[, 2]
     temperature[(k+1):l] <- temp[, 3]
     snow_storage[(k+1):l] <- temp[, 4]
-    modelled[(k+1):l] <- temp[, 6]  # Model results on same collumn as measured data in the past
+    modelled_raw[(k+1):l] <- temp[, 5]  # This is the simulated discharge during the forecast period without data assimilation
+    modelled_corr[(k+1):l] <- temp[, 6] # This is the modelled forecast after correction by observed data
     modelled_M50[(k+1):l] <- temp[, 7]
     modelled_P50[(k+1):l] <- temp[, 8]
     measured[(k+1):l] <- rep(NA, 9)
@@ -484,7 +491,8 @@ read_HBV_P <- function(filename) {
 #                     Input_Precip = precip,
 #                     Input_Temp = temperature,
 #                     State_Snow = snow_storage,
-#                     Runoff_Sim = modelled,
+#                     Runoff_SimRaw = modelled_raw,  # ASK WHY IT IS DIFFERENT FROM THE MAIN FILE. SHOULD WE PLOT IT?
+#                     Runoff_SimCorr = modelled_corr,
                     Runoff_SimPrecipM50 = modelled_M50,
                     Runoff_SimPrecipP50 = modelled_P50)
                     # Runoff_Obs = measured)
@@ -494,24 +502,79 @@ read_HBV_P <- function(filename) {
 
 }
 
-# read_DDD <- function(path, filename) {
-#
-#   ## Reading DDD model results
-#   # Operational path is /hdata/drift/flom/DDD24h2015R/24hres.txt
-#
-#   file_connect <- file("./data/DDD24h2015R/24hres.txt", open = "rt")
-#
-#   # x <- TRUE
-#   # while (x) {
-#   # x <- !grepl(":", readLines(file_connect, n = 1))
-#   # }
-#
-#   DDD <- read.table(file_connect, sep = "\t", fill = TRUE)
-#   DDD2 <- head(test, 30L)  # To keep the data from only 1 station
-#   close(file_connect)
-#
-# }
-#
+################## TO DO
+
+read_DDD <- function(filename = system.file("demodata/DDD24h2015R/24hres.txt", "vfpost_usikkerhet.txt", package = "NVEDATA")) {
+
+
+
+  # Get the regine numbers related to the station names in the HBV output file
+#   station_ref <- read.table('../Flood_forecasting/data/usikkerhet_grd/HbvFelt147.txt')
+#   regine_ref_nb <- paste(station_ref$V1, ".", station_ref$V2, sep = "")
+#   station_ref_name <- station_ref$V5
+
+  ## Reading DDD model results
+  file_connect <- file(".inst/demodata/DDD24h2015R/24hres.txt", open = "rt")
+  file_connect <- file(filename, open = "rt")
+
+  regine_main <- c()
+  time_vec <- c()
+  precip <- c()
+  temperature <- c()
+  snow_storage <- c()
+  gw_storage <- c()
+  soil_moisture <- c()
+  modelled <- c()
+  measured <- c()
+
+  x <- TRUE
+  i = 0
+
+  while (x == TRUE) {
+    station_line <-   substring(readLines(file_connect, n = 1),2)
+    regine <- strsplit(station_line, " ")
+    regine_main[(j+1): l] <- rep(regine, 30)
+
+     ## PAST
+    temp <- read.table(file_connect, nrows = 30)
+    # Time appears as DD/MM-YYYY
+    year <- temp[,1]
+    month <- temp[,2]
+    day <- temp[,3]
+    time_vec[(j+1):k] <- paste(year, "-", month, "-", day, sep = "")
+    precip[(j+1):k] <- temp[, 5]
+    temperature[(j+1):k] <- temp[, 6]
+    measured[(j+1):k] <- temp[, 7]
+    modelled[(j+1):k] <- temp[, 8]
+    snow_storage[(j+1):k] <- temp[, 10]
+    gw_storage[(j+1):k] <- temp[, 11]
+    soil_moisture[(j+1):k] <- temp[, 13]
+
+    # Break it we reach the end of the file
+    if (length(x) == 0) {break}
+    # current_line_old <- current_line
+    i <- i + 1
+  }
+
+  DDD <- data.frame(regine_main = regine_main,
+                    # station_name = station_name,
+                    time = time_vec,
+                    Input_Precip = precip,
+                    Input_Temp = temperature,
+                    State_Snow = snow_storage,
+                    State_GW = gw_storage,
+                    State_Soil = soil_moisture,
+                    Runoff_Sim = modelled,
+                    Runoff_Obs = measured)
+
+  DDD <- tbl_df(DDD)
+  invisible(DDD)
+}
+
+
+################## TALK TO BARD
+
+
 # read_ODM <- function(path, filename) {
 #
 #   ## Reading ODM model results. There is a folder per station.

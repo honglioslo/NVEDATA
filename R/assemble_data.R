@@ -351,11 +351,6 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
 
   }
 
-  ## Fill in level 2 and 3 of the list
-#   DDM_data <- read_DDM_data()
-#   DDD_data <- read_DDD_data()
-#   ODM_data <- read_ODM_data()
-
 # ## Command when running it out of package
 #   HBV_2014 <- read_HBV_data(filename = '../Flood_forecasting/data/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt')
 #   HBV_2016_INIT <- read_HBV_data(filename = '../Flood_forecasting/data/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt')
@@ -365,6 +360,7 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   HBV_2014 <- read_HBV_data(system.file("demodata/usikkerhet_grd/utskrift", "vfpost_usikkerhet.txt", package = "NVEDATA"))
   HBV_2016_INIT <- read_HBV_data(system.file("demodata/usikkerhet_grd/ut_test", "vfpost_usikkerhet.txt", package = "NVEDATA"))
   HBV_2016_PRECIP_CORRECTION <- read_HBV_P(system.file("demodata/usikkerhet_grd/ut_test", "vfp3030.txt", package = "NVEDATA"))
+  DDD <- read_DDD()
 
     # Create the long data frame to be later used by ggplot
   HBV_2014 <- tidyr::gather(HBV_2014, key = Tmp, value = Values, -time, -regine_main, -station_name) %>%
@@ -372,6 +368,9 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
 
   HBV_2016 <- dplyr::right_join(HBV_2016_INIT, HBV_2016_PRECIP_CORRECTION, by = c("regine_main", "time"))
   HBV_2016 <- tidyr::gather(HBV_2016, key = Tmp, value = Values, -time, -regine_main, -station_name) %>%
+    separate(Tmp, into = c("Type", "Variable"), sep = "_")
+
+  DDD <- tidyr::gather(DDD, key = Tmp, value = Values, -time, -regine_main) %>%
     separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
   # Initilize list for one station
@@ -383,7 +382,7 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
                      metadata = dplyr::filter(meta_data, regine_main == regine_main_in),
                      # observed = observed,
 #                      DDM = dplyr::filter(DDM_data, regine_main == regine_main_in),
-#                      DDD = dplyr::filter(DDD_data, regine_main == regine_main_in),
+                     DDD = dplyr::filter(DDD, regine_main == regine_main_in),
                      # ODM = dplyr::filter(ODM_data, regine_main == regine_main_in),
                       HBV_2014 = dplyr::filter(HBV_2014, regine_main == regine_main_in),
                       HBV_2016 = dplyr::filter(HBV_2016, regine_main == regine_main_in)
@@ -398,6 +397,7 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   save(data_all, file = paste(getwd(),"/","data_all.RData", sep = ""))
   save(HBV_2014, file = paste(getwd(),"/","HBV_2014.RData", sep = ""))
   save(HBV_2016, file = paste(getwd(),"/","HBV_2016.RData", sep = ""))
+  save(DDD, file = paste(getwd(),"/", "DDD.RData", sep = ""))
 
   # return(data_all)
 

@@ -531,7 +531,7 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
   i = 0
 
   station_line <-   substring(readLines(file_connect, n = 1),2)
-  regine <- strsplit(station_line, " ")
+  regine <- strsplit(station_line, " ")[[1]][1]
 
   while (x == TRUE) {
     # get indices
@@ -548,17 +548,19 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
     time_vec[(j+1):k] <- paste(year, "-", month, "-", day, sep = "")
     precip[(j+1):k] <- temp[, 5]
     temperature[(j+1):k] <- temp[, 6]
-    measured[(j+1):k] <- temp[, 7]
+    measured[(j+1):(j+20)] <- temp[, 7]
+    measured[(j+21):k] <- rep(NA, 10)
     modelled[(j+1):k] <- temp[, 8]
     snow_storage[(j+1):k] <- temp[, 10]
     gw_storage[(j+1):k] <- temp[, 11]
     soil_moisture[(j+1):k] <- temp[, 13]
 
     station_line <-   substring(readLines(file_connect, n = 1),2)
-    regine <- strsplit(station_line, " ")
-    x <- grepl(" ", regine)
+    # x <- !grepl(" ", regine)
     # Break it we reach the end of the file
-    if (length(x) == 0) {break}
+    if (length(station_line) == 0) {break}
+
+    regine <- strsplit(station_line, " ")[[1]][1]
 
     # current_line_old <- current_line
     i <- i + 1

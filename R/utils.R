@@ -228,8 +228,7 @@ load_single_wsh <- function(regine_main, grid_data) {
 # HACK FLO
 
 #' @title Read HBV modelling results
-#' @param path Path to the HBV modelling results ('../Flood_forecasting/data/usikkerhet_grd/utskrift' as default)
-#' @param filename Name of the file with HBV modelling results ("vfpost_usikkerhet.txt" as default))
+#' @param filename Full path and name of the file with HBV modelling results ("demodata/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt" as default))
 #' @return A dataframe with the modelling results and parameters
 #' @import dplyr
 #' @export
@@ -369,13 +368,12 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
 
 
 #' @title Read HBV modelling results for -+ 50 percent precipitation
-#' @param path Path to the HBV modelling results ('../Flood_forecasting/data/usikkerhet_grd/utskrift' as default)
-#' @param filename Name of the file with HBV modelling results ("vfpost_usikkerhet.txt" as default))
+#' @param filename Full path and name of the file with HBV_2016 +-50% modelling results ("demodata/usikkerhet_grd/ut_test/vfp3030.txt" as default))
 #' @return A dataframe with the modelling results and parameters
 #' @import dplyr
 #' @export
 
-read_HBV_P <- function(filename) {
+read_HBV_P <- function(filename = system.file("demodata/usikkerhet_grd/ut_test", "vfp3030.txt", package = "NVEDATA")) {
 
   # Get the regine numbers related to the station names in the HBV output file
   station_ref <- read.table(system.file("demodata/usikkerhet_grd", "HbvFelt147.txt", package = "NVEDATA"))
@@ -502,7 +500,11 @@ read_HBV_P <- function(filename) {
 
 }
 
-################## TO DO
+#' @title Read DDD modelling results
+#' @param filename Full path and name of the file with DDD modelling results ("demodata/DDD24h2015R/24hres.txt" as default))
+#' @return A dataframe with the modelling results and parameters
+#' @import dplyr
+#' @export
 
 read_DDD <- function(filename = system.file("demodata/DDD24h2015R/24hres.txt", "vfpost_usikkerhet.txt", package = "NVEDATA")) {
 

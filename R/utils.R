@@ -377,7 +377,7 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
 read_HBV_P <- function(filename) {
 
   # Get the regine numbers related to the station names in the HBV output file
-  station_ref <- read.table('../Flood_forecasting/data/usikkerhet_grd/HbvFelt147.txt')
+  station_ref <- read.table(system.file("demodata/usikkerhet_grd", "HbvFelt147.txt", package = "NVEDATA"))
   regine_ref_nb <- paste(station_ref$V1, ".", station_ref$V2, sep = "")
   station_ref_name <- station_ref$V5
 

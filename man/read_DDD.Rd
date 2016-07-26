@@ -4,8 +4,8 @@
 \alias{read_DDD}
 \title{Read DDD modelling results}
 \usage{
-read_DDD(filename = system.file("demodata/DDD24h2015R/24hres.txt",
-  "vfpost_usikkerhet.txt", package = "NVEDATA"))
+read_DDD(filename = system.file("demodata/DDD24h2015R", "24hres.txt", package
+  = "NVEDATA"))
 }
 \arguments{
 \item{filename}{Full path and name of the file with DDD modelling results ("demodata/DDD24h2015R/24hres.txt" as default))}

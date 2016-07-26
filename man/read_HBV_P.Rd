@@ -4,12 +4,11 @@
 \alias{read_HBV_P}
 \title{Read HBV modelling results for -+ 50 percent precipitation}
 \usage{
-read_HBV_P(filename)
+read_HBV_P(filename = system.file("demodata/usikkerhet_grd/ut_test",
+  "vfp3030.txt", package = "NVEDATA"))
 }
 \arguments{
-\item{filename}{Name of the file with HBV modelling results ("vfpost_usikkerhet.txt" as default))}
-
-\item{path}{Path to the HBV modelling results ('../Flood_forecasting/data/usikkerhet_grd/utskrift' as default)}
+\item{filename}{Full path and name of the file with HBV_2016 +-50% modelling results ("demodata/usikkerhet_grd/ut_test/vfp3030.txt" as default))}
 }
 \value{
 A dataframe with the modelling results and parameters

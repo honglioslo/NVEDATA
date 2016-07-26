@@ -359,14 +359,14 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   DDD <- read_DDD()
 
     # Create the long data frame to be later used by ggplot
-  HBV_2014 <- tidyr::gather(HBV_2014, key = Tmp, value = Values, -time, -regine_main, -station_name) %>%
+  HBV_2014 <- tidyr::gather(HBV_2014, key = Tmp, value = Values, -time, -regine.main, -station.name) %>%
     separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
-  HBV_2016 <- dplyr::right_join(HBV_2016_INIT, HBV_2016_PRECIP_CORRECTION, by = c("regine_main", "time"))
-  HBV_2016 <- tidyr::gather(HBV_2016, key = Tmp, value = Values, -time, -regine_main, -station_name) %>%
+  HBV_2016 <- dplyr::right_join(HBV_2016_INIT, HBV_2016_PRECIP_CORRECTION, by = c("regine.main", "time"))
+  HBV_2016 <- tidyr::gather(HBV_2016, key = Tmp, value = Values, -time, -regine.main, -station.name) %>%
     separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
-  DDD <- tidyr::gather(DDD, key = Tmp, value = Values, -time, -regine_main) %>%
+  DDD <- tidyr::gather(DDD, key = Tmp, value = Values, -time, -regine.main) %>%
     separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
   # Initilize list for one station
@@ -377,10 +377,10 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
                      metadata = dplyr::filter(meta_data, regine_main == regine_main_in),
                      # observed = observed,
 #                      DDM = dplyr::filter(DDM_data, regine_main == regine_main_in),
-                     DDD = dplyr::filter(DDD, regine_main == regine_main_in),
+                     DDD = dplyr::filter(DDD, regine.main == regine_main_in),
                      # ODM = dplyr::filter(ODM_data, regine_main == regine_main_in),
-                      HBV_2014 = dplyr::filter(HBV_2014, regine_main == regine_main_in),
-                      HBV_2016 = dplyr::filter(HBV_2016, regine_main == regine_main_in)
+                      HBV_2014 = dplyr::filter(HBV_2014, regine.main == regine_main_in),
+                      HBV_2016 = dplyr::filter(HBV_2016, regine.main == regine_main_in)
 )
 
   }

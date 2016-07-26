@@ -349,8 +349,8 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
     i <- i + 1
   }
 
-  HBV <- data.frame(regine_main = regine_main,
-                    station_name = station_name,
+  HBV <- data.frame(regine.main = regine_main,
+                    station.name = station_name,
                     time = time_vec,
                     Input_Precip = precip,
                     Input_Temp = temperature,
@@ -484,7 +484,7 @@ read_HBV_P <- function(filename = system.file("demodata/usikkerhet_grd/ut_test",
     i <- i + 1
   }
 
-  HBV <- data.frame(regine_main = regine_main,
+  HBV <- data.frame(regine.main = regine_main,
                     # station_name = station_name,
                     time = time_vec,
 #                     Input_Precip = precip,
@@ -564,7 +564,7 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
     i <- i + 1
   }
 
-  DDD <- data.frame(regine_main = regine_main,
+  DDD <- data.frame(regine.main = regine_main,
                     # station_name = station_name,
                     time = time_vec,
                     Input_Precip = precip,

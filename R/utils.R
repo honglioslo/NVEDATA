@@ -52,6 +52,7 @@
 #' @param time_vec Vector with times defining the period for data selection
 #' @return Data frame (dplyr) with time and runoff
 #' @import dplyr
+#' @import lubridate
 #' @export
 
 read_runoff_file <- function(path, filename) {
@@ -115,6 +116,7 @@ load_runoff_all <-  function(data, path, time_vec) {
 #' @title Read netdcf file
 #' @param filename Name of the netcdf file
 #' @return Vector with values (reshaped into a vector from a grid)
+#' @import ncdf4
 #' @export
 
 read_nc_file <- function(filename) {

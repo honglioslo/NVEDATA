@@ -11,5 +11,4 @@ RoxygenNote: 5.0.1
 Imports: ncdf4,
     lubridate,
 	dplyr,
-	tidyr,
-	curl
+	tidyr

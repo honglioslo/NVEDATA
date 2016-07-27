@@ -15,7 +15,7 @@ Install the package with the following code:
 
 ```R
 library(devtools)
-install_github("jmgnve/NVEDATA")
+install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
 ```
 
 ## Example for accessing meta data

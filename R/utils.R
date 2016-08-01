@@ -603,21 +603,21 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
   ##   station name, station number, Qm(obs), Q5(obs), Q50(obs), Qm(sim), Q5(sim), Q50(sim), area
 
   file_connect <- file(filename, open = "rt")
-  split_lines <- read.table(file_connect, sep = ":")
+  dat <- read.table(file_connect, sep = ":")
 
 
     # station.name <- split_lines[ , 2]
     regine_main <- split_lines[ , 3]
 
-    obs.1Y <- split_lines[ , 4]
-    obs.5Y <- split_lines[ , 5]
-    obs.50Y <- split_lines[ , 6]
+    obs.1Y <- dat[ , 4]
+    obs.5Y <- dat[ , 5]
+    obs.50Y <- dat[ , 6]
 
-    sim.1Y <- split_lines[ , 7]
-    sim.5Y <- split_lines[ , 8]
-    sim.50Y <- split_lines[ , 9]
+    sim.1Y <- dat[ , 7]
+    sim.5Y <- dat[ , 8]
+    sim.50Y <- dat[ , 9]
 
-    area <- split_lines[ , 10]
+    area <- dat[ , 10]
 
   flomtabell <- data.frame(regine.main = regine_main,
                     # station.name = station_name,
@@ -638,6 +638,75 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
 
 }
 
+
+
+#' @title Read Flomtabell.rap to get return levels for each station
+#' @param folder Path to the folder where all the individual files are. Default is demodata/HBV_past_year
+#' @return NOTHING Saves the results to an .rda file
+#' @import purrr
+#' @export
+
+read_past_HBV <- function(folder = './demodata/HBV_past_year') {
+
+  # Get the regine numbers related to the station names in the HBV output file
+  # Read it from the package for use anywhere
+  station_ref <- read.table(system.file("demodata/usikkerhet_grd", "HbvFelt147.txt", package = "NVEDATA"))
+  regine_ref_nb <- paste(station_ref$V1, ".", station_ref$V2, sep = "")
+  station_ref_name <- station_ref$V5
+
+  ## The following data are on each file:
+  ##   date          Qobs       Qsimobs        Qsim       Qusi
+  file_sources = list.files(folder,
+                            pattern="*.dat$", full.names=TRUE,
+                            ignore.case=TRUE)
+
+  read_past_HBV_single <- function(filename) {
+
+    # read station name and find index to get back to regine_main number
+    split_path <- strsplit(filename, "/")
+    split_filename <- strsplit(split_path[[1]][5], ".dat")
+    station_name <- split_filename[[1]][1]
+    index <- which(station_ref_name == station_name)
+
+    if (length(index) >= 1) {
+      regine <- regine_ref_nb[index]
+    } else {
+      regine <- "NA"
+    }
+
+    file_connect <- file(filename, open = "rt")
+    dat <- read.table(file_connect, sep = "", header = TRUE)
+
+    time <- ymd(dat[ , 1])
+    Qobs <- dat[ , 2]
+    Qsimobs <- dat[ , 3]
+    Qsim <- dat[ , 4]
+    Qusi <- dat[ , 5]
+    station_name <- rep(station_name, length(time))
+    regine <- rep(regine, length(time))
+
+    HBV_past_year <- data.frame(regine.main = regine,
+                                station.name = station_name,
+                                Qobs = Qobs,
+                                Qsimobs = Qsimobs,
+                                Qsim = Qsim,
+                                Qusi = Qusi)
+    # Transform -10000.00 values with NAs
+    HBV_past_year[HBV_past_year== -9999.000] <- NA
+    HBV_past_year[HBV_past_year== -10000.000] <- NA
+
+
+    HBV_past_year <- tbl_df(HBV_past_year)
+  }
+
+  HBV_past_year <-purrr::map(file.sources, read_past_HBV_single)
+
+
+
+
+  invisible(HBV_past_year)
+
+}
 
 
 ################## TALK TO BARD

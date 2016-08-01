@@ -358,6 +358,7 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   HBV_2016_PRECIP_CORRECTION <- read_HBV_P(filename = '//hdata/drift/flom/usikkerhet_grd/ut_test/vfp3030.txt')
   DDD <- read_DDD(filename = '//hdata/drift/flom//DDD24h2015R/24hres.txt')
   flomtabell <- read_flomtabell()
+  HBV_past_year <- read_past_HBV()
 
 
     # Create the long data frame to be later used by ggplot
@@ -401,7 +402,7 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   save(HBV_2016, file = paste(getwd(),"/","HBV_2016.RData", sep = ""))
   save(DDD, file = paste(getwd(),"/", "DDD.RData", sep = ""))
   save(flomtabell, file = paste(getwd(),"/", "flomtabell.RData", sep = ""))
-
+  save(HBV_past_year, file = paste(getwd(),"/", "HBV_past_year.RData", sep = ""))
 
   # invisible(data_all)
 

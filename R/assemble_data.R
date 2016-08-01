@@ -357,17 +357,22 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   HBV_2016_INIT <- read_HBV_data(filename = '//hdata/drift/flom/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt')
   HBV_2016_PRECIP_CORRECTION <- read_HBV_P(filename = '//hdata/drift/flom/usikkerhet_grd/ut_test/vfp3030.txt')
   DDD <- read_DDD(filename = '//hdata/drift/flom//DDD24h2015R/24hres.txt')
+  flomtabell <- read_flomtabell()
+
 
     # Create the long data frame to be later used by ggplot
   HBV_2014 <- tidyr::gather(HBV_2014, key = Tmp, value = Values, -time, -regine.main, -station.name) %>%
-    separate(Tmp, into = c("Type", "Variable"), sep = "_")
+    tidyr::separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
   HBV_2016 <- dplyr::right_join(HBV_2016_INIT, HBV_2016_PRECIP_CORRECTION, by = c("regine.main", "time"))
   HBV_2016 <- tidyr::gather(HBV_2016, key = Tmp, value = Values, -time, -regine.main, -station.name) %>%
     separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
   DDD <- tidyr::gather(DDD, key = Tmp, value = Values, -time, -regine.main) %>%
-    separate(Tmp, into = c("Type", "Variable"), sep = "_")
+    tidyr::separate(Tmp, into = c("Type", "Variable"), sep = "_")
+
+  flomtabell <- tidyr::gather(flomtabell, key = Tmp, value = Values, -regine.main) %>%
+    tidyr::separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
   # Initilize list for one station
   init_list <- function(regine_main_in) {
@@ -395,7 +400,9 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   save(HBV_2014, file = paste(getwd(),"/","HBV_2014.RData", sep = ""))
   save(HBV_2016, file = paste(getwd(),"/","HBV_2016.RData", sep = ""))
   save(DDD, file = paste(getwd(),"/", "DDD.RData", sep = ""))
+  save(flomtabell, file = paste(getwd(),"/", "flomtabell.RData", sep = ""))
 
-  invisible(data_all)
+
+  # invisible(data_all)
 
 }

@@ -511,10 +511,9 @@ read_HBV_P <- function(filename = system.file("demodata/usikkerhet_grd/ut_test",
 
 read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt", package = "NVEDATA")) {
 
-  # Get the regine numbers related to the station names in the HBV output file
-#   station_ref <- read.table('../Flood_forecasting/data/usikkerhet_grd/HbvFelt147.txt')
-#   regine_ref_nb <- paste(station_ref$V1, ".", station_ref$V2, sep = "")
-#   station_ref_name <- station_ref$V5
+  #   path <- '../Flood_forecasting/data/usikkerhet_grd/utskrift'  # /ut_test for HBV50
+  #   filename <- "vfpost_usikkerhet.txt"
+  #   filename <- paste(path, "/", filename, sep = "")
 
   ## Reading DDD model results
   file_connect <- file(filename, open = "rt")
@@ -558,7 +557,6 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
     soil_moisture[(j+1):k] <- temp[, 13]
 
     station_line <-   substring(readLines(file_connect, n = 1),2)
-    # x <- !grepl(" ", regine)
     # Break it we reach the end of the file
     if (length(station_line) == 0) {break}
 
@@ -580,8 +578,66 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
                     Runoff_Obs = measured)
 
   DDD <- tbl_df(DDD)
+
+  # Transform -10000.00 values with NAs
+  DDD[DDD== -10000.00] <- NA
   invisible(DDD)
 }
+
+
+#' @title Read Flomtabell.rap to get return levels for each station
+#' @param filename Full path and name of the datafile (default is demodata/flomtabell.rap). This function gets data for all stations.
+#' If needed, we could add a parameter to get only specific stations
+#' @return NOTHING Saves the results to an .rda file
+#' @export
+
+read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt", package = "NVEDATA")) {
+
+  ## Reading the data file
+#     path <- 'hdata/drift/flom/usikkerhet_grd/utskrift'
+#     name <- "flomtabell.rap"
+#     filename <- paste(path, "/", name, sep = "")
+
+
+  ## The following data are on the file:
+  ##   station name, station number, Qm(obs), Q5(obs), Q50(obs), Qm(sim), Q5(sim), Q50(sim), area
+
+  file_connect <- file(filename, open = "rt")
+  split_lines <- read.table(file_connect, sep = ":")
+
+
+    # station.name <- split_lines[ , 2]
+    regine_main <- split_lines[ , 3]
+
+    obs.1Y <- split_lines[ , 4]
+    obs.5Y <- split_lines[ , 5]
+    obs.50Y <- split_lines[ , 6]
+
+    sim.1Y <- split_lines[ , 7]
+    sim.5Y <- split_lines[ , 8]
+    sim.50Y <- split_lines[ , 9]
+
+    area <- split_lines[ , 10]
+
+  flomtabell <- data.frame(regine.main = regine_main,
+                    # station.name = station_name,
+                    Obs_1Y = obs.1Y,
+                    Obs_5Y = obs.5Y,
+                    Obs_50Y = obs.50Y,
+                    Sim_1Y = sim.1Y,
+                    Sim_5Y = sim.5Y,
+                    Sim_50Y = sim.50Y,
+                    Obs_Area = area
+                    )
+
+  # Transform -10000.00 values with NAs
+  flomtabell[flomtabell== -10000.00] <- NA
+
+  flomtabell <- tbl_df(flomtabell)
+  invisible(flomtabell)
+
+}
+
 
 
 ################## TALK TO BARD

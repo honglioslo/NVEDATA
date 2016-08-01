@@ -603,11 +603,11 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
   ##   station name, station number, Qm(obs), Q5(obs), Q50(obs), Qm(sim), Q5(sim), Q50(sim), area
 
   file_connect <- file(filename, open = "rt")
-  dat <- read.table(file_connect, sep = ":")
+  dat <- read.table(file_connect, sep = ":", header = TRUE)
 
 
-    # station.name <- split_lines[ , 2]
-    regine_main <- split_lines[ , 3]
+    # station_name <- dat[ , 2]
+    regine_main <- dat[ , 3]
 
     obs.1Y <- dat[ , 4]
     obs.5Y <- dat[ , 5]

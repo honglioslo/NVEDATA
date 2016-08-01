@@ -699,7 +699,7 @@ read_past_HBV <- function(folder = './demodata/HBV_past_year') {
     HBV_past_year <- tbl_df(HBV_past_year)
   }
 # purrr::map similar to apply but somehow easier to use in this case
-  HBV_past_year <-purrr::map(file.sources, read_past_HBV_single)
+  HBV_past_year <-purrr::map(file_sources, read_past_HBV_single)
 
   invisible(HBV_past_year)
 

@@ -377,6 +377,9 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   flomtabell <- tidyr::gather(flomtabell, key = Tmp, value = Values, -regine.main) %>%
     tidyr::separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
+  HBV_past_year <- tidyr::gather(HBV_past_year, key = Tmp, value = Values, -time, -regine.main) %>%
+    tidyr::separate(Tmp, into = c("Type", "Variable"), sep = "_")
+
   # Initilize list for one station
   init_list <- function(regine_main_in) {
 

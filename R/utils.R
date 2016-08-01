@@ -687,10 +687,10 @@ read_past_HBV <- function(folder = './demodata/HBV_past_year') {
 
     HBV_past_year <- data.frame(regine.main = regine,
                                 station.name = station_name,
-                                Qobs = Qobs,
-                                Qsimobs = Qsimobs,
-                                Qsim = Qsim,
-                                Qusi = Qusi)
+                                Runoff_obs = Qobs,
+                                Runoff_simobs = Qsimobs,
+                                Runoff_sim = Qsim,
+                                Runoff_usi = Qusi)
     # Transform -10000.00 values with NAs
     HBV_past_year[HBV_past_year== -9999.000] <- NA
     HBV_past_year[HBV_past_year== -10000.000] <- NA
@@ -698,11 +698,8 @@ read_past_HBV <- function(folder = './demodata/HBV_past_year') {
 
     HBV_past_year <- tbl_df(HBV_past_year)
   }
-
+# purrr::map similar to apply but somehow easier to use in this case
   HBV_past_year <-purrr::map(file.sources, read_past_HBV_single)
-
-
-
 
   invisible(HBV_past_year)
 

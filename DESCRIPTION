@@ -12,4 +12,5 @@ Imports: ncdf4,
     lubridate,
 	dplyr,
 	tidyr,
-	purrr
+	purrr,
+	reshape

@@ -337,6 +337,7 @@ load_data_elev <- function(path_met, path_runoff, regine_main, time_vec) {
 #' plot(ymd(res[[41]]$HBV$time_vec), res[[41]]$HBV$modelled)
 #' @return Nothing Only saves .rda files to the working directory
 #' @import tidyr
+#' @import reshape
 #' @export
 
 load_flood_data <- function(regine_main = meta_data$regine_main) {
@@ -359,7 +360,8 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   DDD <- read_DDD(filename = '//hdata/drift/flom//DDD24h2015R/24hres.txt')
   flomtabell <- read_flomtabell()
   HBV_past_year <- read_past_HBV()
-
+  # Reshape the HBV_past_year into a dataframe. This is brutal and slow but allows having the same structure as the previous data
+  HBV_past_year <- merge_all(HBV_past_year)
 
     # Create the long data frame to be later used by ggplot
   HBV_2014 <- tidyr::gather(HBV_2014, key = Tmp, value = Values, -time, -regine.main, -station.name) %>%

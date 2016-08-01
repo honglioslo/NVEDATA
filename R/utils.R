@@ -580,7 +580,7 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
   DDD <- tbl_df(DDD)
 
   # Transform -10000.00 values with NAs
-  DDD[DDD== -10000.00] <- NA
+  DDD[DDD == -10000.00] <- NA
   invisible(DDD)
 }
 
@@ -631,7 +631,7 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
                     )
 
   # Transform -10000.00 values with NAs
-  flomtabell[flomtabell== -10000.00] <- NA
+  flomtabell[flomtabell == -10000.00] <- NA
 
   flomtabell <- tbl_df(flomtabell)
   invisible(flomtabell)
@@ -645,6 +645,7 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
 #' @return NOTHING Saves the results to an .rda file
 #' @import purrr
 #' @import lubridate
+#' @import dplyr
 #' @export
 
 read_past_HBV <- function(folder = system.file("demodata/HBV_past_year", package = "NVEDATA")) {
@@ -661,13 +662,16 @@ read_past_HBV <- function(folder = system.file("demodata/HBV_past_year", package
                             pattern="*.dat$", full.names=TRUE,
                             ignore.case=TRUE)
 
-  read_past_HBV_single <- function(filename) {
+  read_past_HBV_single <- function(filename, regine_ref_nb, station_ref_name) {
 
     # read station name and find index to get back to regine_main number
-    split_path <- strsplit(filename, "/")
-    split_filename <- strsplit(split_path[[1]][5], ".dat")
+    split_path <- strsplit(filename, "HBV_past_year/")
+    split_filename <- strsplit(split_path[[1]][2], ".dat")
     station_name <- split_filename[[1]][1]
-    index <- which(station_ref_name == station_name)
+    index <- which(station_ref_name == as.character(station_name))
+    print(as.character(split_path))
+    print(as.character(split_filename))
+    print(index)
 
     if (length(index) >= 1) {
       regine <- regine_ref_nb[index]
@@ -683,25 +687,24 @@ read_past_HBV <- function(folder = system.file("demodata/HBV_past_year", package
     Qsimobs <- dat[ , 3]
     Qsim <- dat[ , 4]
     Qusi <- dat[ , 5]
-    station_name <- rep(station_name, length(time))
+    # station_name <- rep(station_name, length(time))
     regine <- rep(regine, length(time))
 
     HBV_past_year <- data.frame(regine.main = regine,
-                                station.name = station_name,
+                                # station.name = station_name,
                                 time = time_vect,
                                 Runoff_obs = Qobs,
                                 Runoff_simobs = Qsimobs,
                                 Runoff_sim = Qsim,
                                 Runoff_usi = Qusi)
     # Transform -10000.00 values with NAs
-    HBV_past_year[HBV_past_year== -9999.000] <- NA
-    HBV_past_year[HBV_past_year== -10000.000] <- NA
-
-
-    HBV_past_year <- tbl_df(HBV_past_year)
+    HBV_past_year[HBV_past_year == -9999.000] <- NA
+    HBV_past_year[HBV_past_year == -10000.000] <- NA
+    HBV_past_year <- dplyr::tbl_df(HBV_past_year)
   }
+
 # purrr::map similar to apply but somehow easier to use in this case
-  HBV_past_year <- purrr::map(file_sources, read_past_HBV_single)
+  HBV_past_year <- purrr::map(file_sources, read_past_HBV_single, regine_ref_nb, station_ref_name)
 
   invisible(HBV_past_year)
 

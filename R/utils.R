@@ -644,9 +644,10 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
 #' @param folder Path to the folder where all the individual files are. Default is demodata/HBV_past_year
 #' @return NOTHING Saves the results to an .rda file
 #' @import purrr
+#' @import lubridate
 #' @export
 
-read_past_HBV <- function(folder = './demodata/HBV_past_year') {
+read_past_HBV <- function(folder = system.file("demodata/HBV_past_year", package = "NVEDATA")) {
 
   # Get the regine numbers related to the station names in the HBV output file
   # Read it from the package for use anywhere
@@ -677,7 +678,7 @@ read_past_HBV <- function(folder = './demodata/HBV_past_year') {
     file_connect <- file(filename, open = "rt")
     dat <- read.table(file_connect, sep = "", header = TRUE)
 
-    time <- ymd(dat[ , 1])
+    time_vect <- lubridate::ymd(dat[ , 1])
     Qobs <- dat[ , 2]
     Qsimobs <- dat[ , 3]
     Qsim <- dat[ , 4]
@@ -687,6 +688,7 @@ read_past_HBV <- function(folder = './demodata/HBV_past_year') {
 
     HBV_past_year <- data.frame(regine.main = regine,
                                 station.name = station_name,
+                                time = time_vect,
                                 Runoff_obs = Qobs,
                                 Runoff_simobs = Qsimobs,
                                 Runoff_sim = Qsim,
@@ -699,7 +701,7 @@ read_past_HBV <- function(folder = './demodata/HBV_past_year') {
     HBV_past_year <- tbl_df(HBV_past_year)
   }
 # purrr::map similar to apply but somehow easier to use in this case
-  HBV_past_year <-purrr::map(file_sources, read_past_HBV_single)
+  HBV_past_year <- purrr::map(file_sources, read_past_HBV_single)
 
   invisible(HBV_past_year)
 

@@ -4,7 +4,8 @@
 \alias{read_past_HBV}
 \title{Read Flomtabell.rap to get return levels for each station}
 \usage{
-read_past_HBV(folder = "./demodata/HBV_past_year")
+read_past_HBV(folder = system.file("demodata/HBV_past_year", package =
+  "NVEDATA"))
 }
 \arguments{
 \item{folder}{Path to the folder where all the individual files are. Default is demodata/HBV_past_year}

@@ -361,7 +361,7 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   flomtabell <- read_flomtabell()
   HBV_past_year <- read_past_HBV()
   # Reshape the HBV_past_year into a dataframe. This is brutal and slow but allows having the same structure as the previous data
-  HBV_past_year <- merge_all(HBV_past_year)
+  HBV_past_year <- reshape::merge_all(HBV_past_year, level = 1)
 
     # Create the long data frame to be later used by ggplot
   HBV_2014 <- tidyr::gather(HBV_2014, key = Tmp, value = Values, -time, -regine.main, -station.name) %>%
@@ -369,7 +369,7 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
 
   HBV_2016 <- dplyr::right_join(HBV_2016_INIT, HBV_2016_PRECIP_CORRECTION, by = c("regine.main", "time"))
   HBV_2016 <- tidyr::gather(HBV_2016, key = Tmp, value = Values, -time, -regine.main, -station.name) %>%
-    separate(Tmp, into = c("Type", "Variable"), sep = "_")
+    tidyr::separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
   DDD <- tidyr::gather(DDD, key = Tmp, value = Values, -time, -regine.main) %>%
     tidyr::separate(Tmp, into = c("Type", "Variable"), sep = "_")

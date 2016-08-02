@@ -693,10 +693,10 @@ read_past_HBV <- function(folder = system.file("demodata/HBV_past_year", package
     HBV_past_year <- data.frame(regine.main = regine,
                                 # station.name = station_name,
                                 time = time_vect,
-                                Runoff_obs = Qobs,
-                                Runoff_simobs = Qsimobs,
-                                Runoff_sim = Qsim,
-                                Runoff_usi = Qusi)
+                                Runoff_Obs = Qobs,
+                                Runoff_Sim.obs = Qsimobs,
+                                Runoff_Sim.sim = Qsim,
+                                Runoff_Sim.sim.corr = Qusi)
     # Transform -10000.00 values with NAs
     HBV_past_year[HBV_past_year == -9999.000] <- NA
     HBV_past_year[HBV_past_year == -10000.000] <- NA

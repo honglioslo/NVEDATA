@@ -356,6 +356,9 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   ## Command when running it from the package
   HBV_2014 <- read_HBV_data(filename = '//hdata/drift/flom/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt')
   HBV_2016_INIT <- read_HBV_data(filename = '//hdata/drift/flom/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt')
+  # Elin doesn't want to plot L50, H50, L90, H90
+  HBV_2016_INIT <- subset(HBV_2016_INIT, select = - c(modelled_L50, modelled_L90, modelled_H50, modelled_H90))
+
   HBV_2016_PRECIP_CORRECTION <- read_HBV_P(filename = '//hdata/drift/flom/usikkerhet_grd/ut_test/vfp3030.txt')
   DDD <- read_DDD(filename = '//hdata/drift/flom//DDD24h2015R/24hres.txt')
   flomtabell <- read_flomtabell()

@@ -498,7 +498,7 @@ read_HBV_P <- function(filename = system.file("demodata/usikkerhet_grd/ut_test",
                     Runoff_SimPrecipP50 = modelled_P50)
                     # Runoff_Obs = measured)
 
-  HBV[HBV == -10000.00] <- NA
+  HBV[HBV == -10000.000] <- NA
   HBV[HBV == -9999.000] <- NA
   HBV <- tbl_df(HBV)
   invisible(HBV)
@@ -582,7 +582,7 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
   DDD <- tbl_df(DDD)
 
   # Transform -10000.00 values with NAs
-  DDD[DDD == -10000.00] <- NA
+  DDD[DDD == -10000] <- NA
   invisible(DDD)
 }
 

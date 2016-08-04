@@ -498,6 +498,8 @@ read_HBV_P <- function(filename = system.file("demodata/usikkerhet_grd/ut_test",
                     Runoff_SimPrecipP50 = modelled_P50)
                     # Runoff_Obs = measured)
 
+  HBV[HBV == -10000.00] <- NA
+  HBV[HBV == -9999.000] <- NA
   HBV <- tbl_df(HBV)
   invisible(HBV)
 
@@ -632,6 +634,7 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
 
   # Transform -10000.00 values with NAs
   flomtabell[flomtabell == -10000.00] <- NA
+  flomtabell[flomtabell == -9999.000] <- NA
 
   flomtabell <- tbl_df(flomtabell)
   invisible(flomtabell)

@@ -364,6 +364,8 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
                     Runoff_SimH50 = modelled_H50,
                     Runoff_SimL50 = modelled_L50,
                     Runoff_Obs = measured)
+  HBV[HBV == -10000.000] <- NA
+  HBV[HBV == -9999.000] <- NA
   HBV <- tbl_df(HBV)
   invisible(HBV)
 

@@ -630,7 +630,7 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
                     Obs_50Y = obs.50Y,
                     Sim_1Y = sim.1Y,
                     Sim_5Y = sim.5Y,
-                    Sim_50Y = sim.50Y,
+                    Sim_50Y = sim.50Y
                     # Obs_Area = area
                     )
 

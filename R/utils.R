@@ -621,7 +621,7 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
     sim.5Y <- dat[ , 8]
     sim.50Y <- dat[ , 9]
 
-    area <- dat[ , 10]
+    # area <- dat[ , 10]  # Let's not read the catchment area as those are already saved in the metadata file
 
   flomtabell <- data.frame(regine.main = regine_main,
                     # station.name = station_name,
@@ -631,7 +631,7 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
                     Sim_1Y = sim.1Y,
                     Sim_5Y = sim.5Y,
                     Sim_50Y = sim.50Y,
-                    Obs_Area = area
+                    # Obs_Area = area
                     )
 
   # Transform -10000.00 values with NAs

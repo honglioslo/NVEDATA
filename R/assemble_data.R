@@ -371,16 +371,16 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
     tidyr::separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
   HBV_2016 <- dplyr::right_join(HBV_2016_INIT, HBV_2016_PRECIP_CORRECTION, by = c("regine.main", "time"))
-  HBV_2016 <- tidyr::gather(HBV_2016, key = Tmp, value = Values, -time, -regine.main, -station.name) %>%
+  HBV_2016 <- tidyr::gather(HBV_2016, key = Tmp, value = Values, -time, -regine.main, -station.name, -nbname) %>%
     tidyr::separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
-  DDD <- tidyr::gather(DDD, key = Tmp, value = Values, -time, -regine.main) %>%
+  DDD <- tidyr::gather(DDD, key = Tmp, value = Values, -time, -regine.main, -nbname) %>%
     tidyr::separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
-  flomtabell <- tidyr::gather(flomtabell, key = Tmp, value = Values, -regine.main) %>%
+  flomtabell <- tidyr::gather(flomtabell, key = Tmp, value = Values, -regine.main, -nbname) %>%
     tidyr::separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
-  HBV_past_year <- tidyr::gather(HBV_past_year, key = Tmp, value = Values, -time, -regine.main) %>%
+  HBV_past_year <- tidyr::gather(HBV_past_year, key = Tmp, value = Values, -time, -regine.main, -nbname) %>%
     tidyr::separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
   # Initilize list for one station

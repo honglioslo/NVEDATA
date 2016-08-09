@@ -678,8 +678,8 @@ read_past_HBV <- function(folder = system.file("demodata/HBV_past_year", package
     # read station name and find index to get back to regine_main number
     split_path <- strsplit(filename, "HBV_past_year/")
     split_filename <- strsplit(split_path[[1]][2], ".dat")
-    station_name <- split_filename[[1]][1]
-    index <- which(station_ref_name == as.character(station_name))
+    name <- split_filename[[1]][1]
+    index <- which(station_ref_name == as.character(name))
     print(as.character(split_path))
     print(as.character(split_filename))
     print(index)
@@ -700,9 +700,10 @@ read_past_HBV <- function(folder = system.file("demodata/HBV_past_year", package
     Qusi <- dat[ , 5]
     # station_name <- rep(station_name, length(time))
     regine <- rep(regine, length(time))
+    station_name <- rep(name, length(time))
 
     HBV_past_year <- data.frame(regine.main = regine,
-                                # station.name = station_name,
+                                nbname = paste(regine_main, "-", station_name, sep = ""),
                                 time = time_vect,
                                 Runoff_Obs = Qobs,
                                 Runoff_Sim.obs = Qsimobs,

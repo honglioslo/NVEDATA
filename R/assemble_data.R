@@ -367,7 +367,7 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
   HBV_past_year <- reshape::merge_all(HBV_past_year)
 
     # Create the long data frame to be later used by ggplot
-  HBV_2014 <- tidyr::gather(HBV_2014, key = Tmp, value = Values, -time, -regine.main, -station.name) %>%
+  HBV_2014 <- tidyr::gather(HBV_2014, key = Tmp, value = Values, -time, -regine.main, -station.name, -nbname) %>%
     tidyr::separate(Tmp, into = c("Type", "Variable"), sep = "_")
 
   HBV_2016 <- dplyr::right_join(HBV_2016_INIT, HBV_2016_PRECIP_CORRECTION, by = c("regine.main", "time"))

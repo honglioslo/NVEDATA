@@ -353,6 +353,7 @@ read_HBV_data <- function(filename = system.file("demodata/usikkerhet_grd/utskri
 
   HBV <- data.frame(regine.main = regine_main,
                     station.name = station_name,
+                    nbname = paste(regine_main, "-", "station_name", sep = ""),
                     time = time_vec,
                     Input_Precip = precip,
                     Input_Temp = temperature,

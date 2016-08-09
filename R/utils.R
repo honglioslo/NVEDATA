@@ -584,8 +584,8 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
                     State_Snow = snow_storage,
                     State_GW = gw_storage,
                     State_Soil = soil_moisture,
-                    Runoff_Sim = modelled,
-                    Runoff_Obs = measured)
+                    Runoff_DDD.Sim = modelled,
+                    Runoff_DDD.Obs = measured)
 
   DDD <- tbl_df(DDD)
 

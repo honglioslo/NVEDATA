@@ -490,7 +490,7 @@ read_HBV_P <- function(filename = system.file("demodata/usikkerhet_grd/ut_test",
   }
 
   HBV <- data.frame(regine.main = regine_main,
-                    # station_name = station_name,
+                    nbname = paste(regine_main, "-", station_name, sep = ""),
                     time = time_vec,
 #                     Input_Precip = precip,
 #                     Input_Temp = temperature,
@@ -516,14 +516,16 @@ read_HBV_P <- function(filename = system.file("demodata/usikkerhet_grd/ut_test",
 
 read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt", package = "NVEDATA")) {
 
-  #   path <- '../Flood_forecasting/data/usikkerhet_grd/utskrift'  # /ut_test for HBV50
-  #   filename <- "vfpost_usikkerhet.txt"
-  #   filename <- paste(path, "/", filename, sep = "")
+  # Get the regine numbers related to the station names in the HBV output file
+  station_ref <- read.table(system.file("demodata/usikkerhet_grd", "HbvFelt147.txt", package = "NVEDATA"))
+  regine_ref_nb <- paste(station_ref$V1, ".", station_ref$V2, sep = "")
+  station_ref_name <- station_ref$V5
 
   ## Reading DDD model results
   file_connect <- file(filename, open = "rt")
 
   regine_main <- c()
+  station_name <- c()
   time_vec <- c()
   precip <- c()
   temperature <- c()
@@ -538,6 +540,7 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
 
   station_line <-   substring(readLines(file_connect, n = 1),2)
   regine <- strsplit(station_line, " ")[[1]][1]
+  name <- station_ref_name[regine]
 
   while (x == TRUE) {
     # get indices
@@ -545,6 +548,7 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
     k <- j + 30
 
     regine_main[(j+1):k] <- rep(regine, 30)
+    station_name[(j+1):k] <- rep(name, 30)
 
     temp <- read.table(file_connect, nrows = 30)
     # Time appears as DD/MM-YYYY
@@ -566,13 +570,14 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
     if (length(station_line) == 0) {break}
 
     regine <- strsplit(station_line, " ")[[1]][1]
+    name <- station_ref_name[regine]
 
     # current_line_old <- current_line
     i <- i + 1
   }
 
   DDD <- data.frame(regine.main = regine_main,
-                    # station_name = station_name,
+                    nbname = paste(regine_main, "-", station_name, sep = ""),
                     time = time_vec,
                     Input_Precip = precip,
                     Input_Temp = temperature,
@@ -598,10 +603,10 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
 
 read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt", package = "NVEDATA")) {
 
-  ## Reading the data file
-#     path <- 'hdata/drift/flom/usikkerhet_grd/utskrift'
-#     name <- "flomtabell.rap"
-#     filename <- paste(path, "/", name, sep = "")
+  # Get the regine numbers related to the station names in the HBV output file
+  station_ref <- read.table(system.file("demodata/usikkerhet_grd", "HbvFelt147.txt", package = "NVEDATA"))
+  regine_ref_nb <- paste(station_ref$V1, ".", station_ref$V2, sep = "")
+  station_ref_name <- station_ref$V5
 
 
   ## The following data are on the file:
@@ -613,7 +618,7 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
 
     # station_name <- dat[ , 2]
     regine_main <- dat[ , 3]
-
+    station_name <- station_ref_name[regine_main]
     obs.1Y <- dat[ , 4]
     obs.5Y <- dat[ , 5]
     obs.50Y <- dat[ , 6]
@@ -625,7 +630,7 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
     # area <- dat[ , 10]  # Let's not read the catchment area as those are already saved in the metadata file
 
   flomtabell <- data.frame(regine.main = regine_main,
-                    # station.name = station_name,
+                           nbname = paste(regine_main, "-", station_name, sep = ""),
                     Obs_1Y = obs.1Y,
                     Obs_5Y = obs.5Y,
                     Obs_50Y = obs.50Y,

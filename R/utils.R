@@ -540,7 +540,7 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
 
   station_line <-   substring(readLines(file_connect, n = 1),2)
   regine <- strsplit(station_line, " ")[[1]][1]
-  name <- station_ref_name[regine]
+  name <- station_ref_name[which(regine_ref_nb == regine)]
 
   while (x == TRUE) {
     # get indices

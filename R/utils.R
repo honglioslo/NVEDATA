@@ -540,7 +540,7 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
 
   station_line <-   substring(readLines(file_connect, n = 1),2)
   regine <- strsplit(station_line, " ")[[1]][1]
-  name <- station_ref_name[which(regine_ref_nb == regine)]
+  name <- station_ref_name[which(regine_ref_nb == as.character(regine))]
 
   while (x == TRUE) {
     # get indices
@@ -548,7 +548,7 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
     k <- j + 30
 
     regine_main[(j+1):k] <- rep(regine, 30)
-    station_name[(j+1):k] <- rep(name, 30)
+    station_name[(j+1):k] <- rep(as.character(name), 30)
 
     temp <- read.table(file_connect, nrows = 30)
     # Time appears as DD/MM-YYYY
@@ -570,14 +570,14 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
     if (length(station_line) == 0) {break}
 
     regine <- strsplit(station_line, " ")[[1]][1]
-    name <- station_ref_name[regine]
+    name <- station_ref_name[which(regine_ref_nb == as.character(regine))]
 
     # current_line_old <- current_line
     i <- i + 1
   }
 
   DDD <- data.frame(regine.main = regine_main,
-                    nbname = paste(regine, "-", station_name, sep = ""),
+                    nbname = paste(regine_main, "-", station_name, sep = ""),
                     time = time_vec,
                     Input_Precip = precip,
                     Input_Temp = temperature,

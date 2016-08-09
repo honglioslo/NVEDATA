@@ -577,7 +577,7 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
   }
 
   DDD <- data.frame(regine.main = regine_main,
-                    nbname = paste(regine_main, "-", station_name, sep = ""),
+                    nbname = paste(regine, "-", station_name, sep = ""),
                     time = time_vec,
                     Input_Precip = precip,
                     Input_Temp = temperature,
@@ -703,7 +703,7 @@ read_past_HBV <- function(folder = system.file("demodata/HBV_past_year", package
     station_name <- rep(name, length(time))
 
     HBV_past_year <- data.frame(regine.main = regine,
-                                nbname = paste(regine_main, "-", station_name, sep = ""),
+                                nbname = paste(regine, "-", station_name, sep = ""),
                                 time = time_vect,
                                 Runoff_Obs = Qobs,
                                 Runoff_Sim.obs = Qsimobs,
@@ -723,20 +723,20 @@ read_past_HBV <- function(folder = system.file("demodata/HBV_past_year", package
 }
 
 
-################## TALK TO BARD
+# To implement with the http rest end-point
 
 
-# read_ODM <- function(path, filename) {
-#
-#   ## Reading ODM model results. There is a folder per station.
-#   # Operational path is (for 1st station only):
-#   # /hdata/drift/flood/H-VEPS02/simu_hbv_elev_24h/AAMOT_ELEV_24h/InputTimeSeries.txt
-#   file_connect <- file("./data/flood/H-VEPS02/simu_hbv_elev_24h/AAMOT_ELEV_24h/InputTimeSeries.txt", open = "rt")
-#   readLines(file_connect, n = 6)
-#   # DATE / TEMP / PRECIP / TEMP / PRECIP / PRECIP / TEMP / DISCHARGE
-#   ODM <- read.table(file_connect, sep = "", fill = TRUE)
-#   colnames(ODM) <-  c("DATE", "TEMP", "PRECIP", "TEMP", "PRECIP", "PRECIP", "TEMP", "DISCHARGE")
-# }
+read_ODM <- function(path, filename) {
+
+  ## Reading ODM model results. There is a folder per station.
+  # Operational path is (for 1st station only):
+  # /hdata/drift/flood/H-VEPS02/simu_hbv_elev_24h/AAMOT_ELEV_24h/InputTimeSeries.txt
+  file_connect <- file("./data/flood/H-VEPS02/simu_hbv_elev_24h/AAMOT_ELEV_24h/InputTimeSeries.txt", open = "rt")
+  readLines(file_connect, n = 6)
+  # DATE / TEMP / PRECIP / TEMP / PRECIP / PRECIP / TEMP / DISCHARGE
+  ODM <- read.table(file_connect, sep = "", fill = TRUE)
+  colnames(ODM) <-  c("DATE", "TEMP", "PRECIP", "TEMP", "PRECIP", "PRECIP", "TEMP", "DISCHARGE")
+}
 
 
 

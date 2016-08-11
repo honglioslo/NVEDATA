@@ -603,12 +603,6 @@ read_DDD <- function(filename = system.file("demodata/DDD24h2015R", "24hres.txt"
 
 read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt", package = "NVEDATA")) {
 
-  # Get the regine numbers related to the station names in the HBV output file
-  station_ref <- read.table(system.file("demodata/usikkerhet_grd", "HbvFelt147.txt", package = "NVEDATA"))
-  regine_ref_nb <- paste(station_ref$V1, ".", station_ref$V2, sep = "")
-  station_ref_name <- station_ref$V5
-
-
   ## The following data are on the file:
   ##   station name, station number, Qm(obs), Q5(obs), Q50(obs), Qm(sim), Q5(sim), Q50(sim), area
 
@@ -616,9 +610,8 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
   dat <- read.table(file_connect, sep = ":", header = TRUE)
 
 
-    # station_name <- dat[ , 2]
+    station_name <- dat[ , 2]
     regine_main <- dat[ , 3]
-    station_name <- station_ref_name[regine_main]
     obs.1Y <- dat[ , 4]
     obs.5Y <- dat[ , 5]
     obs.50Y <- dat[ , 6]
@@ -630,7 +623,7 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
     # area <- dat[ , 10]  # Let's not read the catchment area as those are already saved in the metadata file
 
   flomtabell <- data.frame(regine.main = regine_main,
-                           nbname = paste(regine_main, "-", station_name, sep = ""),
+                   nbname = paste(regine_main, "-", station_name, sep = ""),
                     Obs_1Y = obs.1Y,
                     Obs_5Y = obs.5Y,
                     Obs_50Y = obs.50Y,

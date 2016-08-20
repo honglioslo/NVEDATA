@@ -607,7 +607,8 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
   ##   station name, station number, Qm(obs), Q5(obs), Q50(obs), Qm(sim), Q5(sim), Q50(sim), area
 
   file_connect <- file(filename, open = "rt")
-  dat <- read.table(file_connect, sep = ":", header = TRUE, dec =",")
+  dat <- read.table(file_connect, sep = ":", header = FALSE, dec =",")
+  # dec = "," is a trick to have 2.11 as a character
 
 
     station_name <- dat[ , 2]

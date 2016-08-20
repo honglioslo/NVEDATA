@@ -399,6 +399,8 @@ load_flood_data <- function(regine_main = meta_data$regine_main) {
 
   }
 
+  flomtabell$Values <- as.numeric(flomtabell$Values)
+
   # Fill up with all stations specified in input argument (lapply over level 1, all stations)
   data_all <- lapply(regine_main, init_list)
 

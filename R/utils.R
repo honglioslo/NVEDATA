@@ -607,16 +607,16 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
   ##   station name, station number, Qm(obs), Q5(obs), Q50(obs), Qm(sim), Q5(sim), Q50(sim), area
 
   file_connect <- file(filename, open = "rt")
-  dat <- read.table(file_connect, sep = ":", header = TRUE)
+  dat <- read.table(file_connect, sep = ":", header = TRUE, dec =",")
 
 
     station_name <- dat[ , 2]
-    regine_main <- dat[ , 3]
-    obs.1Y <- dat[ , 4]
+    regine_main <- as.character(dat[ , 3])
+    obs.mean <- dat[ , 4]
     obs.5Y <- dat[ , 5]
     obs.50Y <- dat[ , 6]
 
-    sim.1Y <- dat[ , 7]
+    sim.mean <- dat[ , 7]
     sim.5Y <- dat[ , 8]
     sim.50Y <- dat[ , 9]
 
@@ -624,18 +624,18 @@ read_flomtabell <- function(filename = system.file("demodata", "flomtabell.txt",
 
   flomtabell <- data.frame(regine.main = regine_main,
                    nbname = paste(regine_main, "-", station_name, sep = ""),
-                    Obs_1Y = obs.1Y,
+                    Obs_mean = obs.mean,
                     Obs_5Y = obs.5Y,
                     Obs_50Y = obs.50Y,
-                    Sim_1Y = sim.1Y,
+                    Sim_mean = sim.mean,
                     Sim_5Y = sim.5Y,
                     Sim_50Y = sim.50Y
                     # Obs_Area = area
                     )
 
   # Transform -10000.00 values with NAs
-  flomtabell[flomtabell == -10000.00] <- NA
-  flomtabell[flomtabell == -9999.000] <- NA
+  flomtabell[flomtabell == "-10000.00"] <- NA
+  # flomtabell[flomtabell == -9999.000] <- NA
 
   flomtabell <- tbl_df(flomtabell)
   invisible(flomtabell)
@@ -717,6 +717,20 @@ read_past_HBV <- function(folder = system.file("demodata/HBV_past_year", package
 
 
 # To implement with the http rest end-point
+
+# Wind speed data from Mannen
+# http://h-web01.nve.no/chartserver/ # defines server
+#   ShowData.aspx? # defines function(?)
+# req=getchart& # defines request
+#   ver=1.0& # defines version number
+#   vfmt=json& # defines output format
+#   time=20130422T0000;20130521T0000& # defines time interval
+#   chs=10x10& # defines chart size
+#   lang=no& # defines language
+#   chlf=desc& # defines chart legend format
+#   chsl=0;+0& # marks an area dependent on start and end dates/times
+#   chd=ds=htsre,da=29,id=61410.16,rt=1:00,cht=line,mth=inst| # ???
+#   ds=htsry,id=metx[61410;16].6038,mth=inst,rt=1:00,cht=line&nocache=0.33931976436234856 # ???
 
 
 read_ODM <- function(path, filename) {

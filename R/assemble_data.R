@@ -304,7 +304,7 @@ load_data_elev <- function(path_met, path_runoff, regine_main, time_vec) {
 
   # Get runoff data
 
-  data_all <- lapply(data_all,load_runoff_all, path = path_runoff, time = time_vec)
+  data_all <- invisible(lapply(data_all, load_runoff_all, path = path_runoff))
 
   return(data_all)
 

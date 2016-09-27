@@ -1,3 +1,4 @@
 .Rbuildignore
 man/*.Rd
 NAMESPACE
+.Rproj.user/

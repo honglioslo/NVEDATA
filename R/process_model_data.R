@@ -117,12 +117,12 @@ update_model_data <- function(path_met, path_runoff, path_model_data, overlap, f
     filename <- paste(path_model_data, "/", gsub("\\.", "_", data$regine_main), "_data/Tair.txt", sep = "")
     tmp <- read.table(filename, stringsAsFactors = FALSE)
     Tair_old <- data.frame(as.Date(tmp[,1]), tmp[ ,2:ncol(tmp)])
-    colnames(Tair_old) <- c("Time", paste("Tair", 1:(ncol(tmp)-1), sep = "."))
+    colnames(Tair_old) <- c("Time", paste("Tair", 1:(ncol(Tair_old)-1), sep = "."))
 
     filename <- paste(path_model_data, "/", gsub("\\.", "_", data$regine_main), "_data/Prec.txt", sep = "")
     tmp <- read.table(filename, stringsAsFactors = FALSE)
     Prec_old  <- data.frame(Time = as.Date(tmp[,1]), Prec = tmp[ ,2:ncol(tmp)])
-    colnames(Prec_old) <- c("Time", paste("Prec", 1:(ncol(tmp)-1), sep = "."))
+    colnames(Prec_old) <- c("Time", paste("Prec", 1:(ncol(Prec_old)-1), sep = "."))
 
     filename <- paste(path_model_data, "/", gsub("\\.", "_", data$regine_main), "_data/Qobs.txt", sep = "")
     tmp <- read.table(filename, stringsAsFactors = FALSE)
@@ -132,8 +132,13 @@ update_model_data <- function(path_met, path_runoff, path_model_data, overlap, f
     # From lists to data frames
 
     Tair_new <- data.frame(Time = data$time_vec, Tair = data$Tair)
+    colnames(Tair_new) <- c("Time", paste("Tair", 1:(ncol(Tair_new)-1), sep = "."))
+
     Prec_new <- data.frame(Time = data$time_vec, Prec = data$Prec)
+    colnames(Prec_new) <- c("Time", paste("Prec", 1:(ncol(Prec_new)-1), sep = "."))
+
     Qobs_new <- data.frame(Time = data$time_vec, Qobs = data$Runoff)
+    colnames(Qobs_new) <- c("Time", "Qobs")
 
     # Merge data frames
 

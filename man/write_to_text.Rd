@@ -14,7 +14,7 @@ write_to_text(data, path)
 \examples{
 library(lubridate)
 path_met <- '//hdata/grid/metdata/met_obs_v2.0'
-path_runoff <- '//hdata/fou/Vannbalansekart/Data/Runoff_All'
+path_runoff <- '//hdata/fou/Avrenningskart/Data/Runoff_All'
 regine_main <- c('1.48','1.49','1.50')
 time_vec <- seq(ymd("2011-01-01"), ymd("2011-01-04"), by = "days")
 res <- load_data_mean(path_met, path_runoff, regine_main, time_vec)

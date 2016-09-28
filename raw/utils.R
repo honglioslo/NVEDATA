@@ -87,6 +87,3 @@ process_elevation_data <- function(filename) {
 }
 
 
-
-
-

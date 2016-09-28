@@ -1,3 +1,5 @@
 .Rbuildignore
-man/*.Rd
 .Rproj.user/
+.Rhistory
+*.RData
+.Rproj.user

@@ -1,4 +1,4 @@
-# Testing the gamma functions
+# Examples from fitdistrib package
 
 # param <- c(100, 1)
 # tolerance <- 0.5  # 20% tolerance on parameter estimation accuracy

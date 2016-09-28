@@ -91,16 +91,16 @@ load_data_mean <- function(path_met, path_runoff, regine_main, time_vec) {
 
     # Process air temperature data
 
-    filename <- paste(path_met, "/tm/", format(time_vec[iday], "%Y"), "/tm_", format(time_vec[iday], "%Y_%m_%d"), ".nc", sep = "")
-
-    met_data <- read_nc_file(filename)
-
-
-#     filename <- paste(path_met, "/tm/", format(time_vec[iday], "%Y"), "/tm_", format(time_vec[iday], "%Y_%m_%d"), ".bil", sep = "")
+#     filename <- paste(path_met, "/tm/", format(time_vec[iday], "%Y"), "/tm_", format(time_vec[iday], "%Y_%m_%d"), ".nc", sep = "")
 #
-#     met_data <- read_bil_file(filename)
-#
-#     met_data <- met_data/10 - 273.15
+#     met_data <- read_nc_file(filename)
+
+
+    filename <- paste(path_met, "/tm/", format(time_vec[iday], "%Y"), "/tm_", format(time_vec[iday], "%Y_%m_%d"), ".bil", sep = "")
+
+    met_data <- read_bil_file(filename)
+
+    met_data <- met_data/10 - 273.15
 
 
 
@@ -119,16 +119,16 @@ load_data_mean <- function(path_met, path_runoff, regine_main, time_vec) {
 
     # Process precipitation data
 
-    filename <- paste(path_met, "/rr/", format(time_vec[iday], "%Y"), "/rr_", format(time_vec[iday], "%Y_%m_%d"), ".nc", sep = "")
-
-    met_data <- read_nc_file(filename)
-
-
-#     filename <- paste(path_met, "/rr/", format(time_vec[iday], "%Y"), "/rr_", format(time_vec[iday], "%Y_%m_%d"), ".bil", sep = "")
+#     filename <- paste(path_met, "/rr/", format(time_vec[iday], "%Y"), "/rr_", format(time_vec[iday], "%Y_%m_%d"), ".nc", sep = "")
 #
-#     met_data <- read_bil_file(filename)
-#
-#     met_data <- met_data/10
+#     met_data <- read_nc_file(filename)
+
+
+    filename <- paste(path_met, "/rr/", format(time_vec[iday], "%Y"), "/rr_", format(time_vec[iday], "%Y_%m_%d"), ".bil", sep = "")
+
+    met_data <- read_bil_file(filename)
+
+    met_data <- met_data/10
 
 
 

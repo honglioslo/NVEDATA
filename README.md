@@ -1,6 +1,3 @@
-[![Travis-CI Build Status](https://travis-ci.org/fbaffie/NVEDATA.svg?branch=master)](https://travis-ci.org/fbaffie/NVEDATA)
-[![codecov](https://codecov.io/github/fbaffie/NVEDATA/branch/master/graphs/badge.svg)](https://codecov.io/gh/fbaffie/NVEDATA) 
-
 # NVEDATA
 
 R package for processing data at NVE, currently meteorological (SeNorge) and runoff data.
@@ -18,7 +15,7 @@ Install the package with the following code:
 
 ```R
 library(devtools)
-install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
+install_github("jmgnve/NVEDATA")
 ```
 
 ## Example for accessing meta data

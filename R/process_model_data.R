@@ -51,6 +51,10 @@ write_model_data <- function(path_met, path_runoff, path_model_data, regine_main
 
     metadata <- data$metadata
 
+    # Replace NA with -999
+
+    Q_obs[is.na(Q_obs)] <-  -999
+
     # Write data
 
     write.table(Tair, file = paste(folder_name, "/Tair.txt", sep = ""), sep = "\t", row.names = FALSE, col.names = FALSE)
@@ -102,6 +106,11 @@ update_model_data <- function(path_met, path_runoff, path_model_data, overlap, f
     data$Tair <- round(data$Tair, digits = 2)
     data$Prec <- round(data$Prec, digits = 2)
     data$Runoff <- round(data$Runoff, digits = 2)
+
+    # Replace NA with -999
+
+    data$Runoff[is.na(data$Runoff)] <-  -999
+
 
     # Read old data
 

@@ -34,7 +34,7 @@ The metadata is stored in a data frame that can be used for selecting stations.
 ```R
 library(lubridate)
 path_met <- '//hdata/grid/metdata/met_obs_v2.0'
-path_runoff <- '//hdata/fou/Vannbalansekart/Data/Runoff_All'
+path_runoff <- '//hdata/fou/Avrenningskart/Data/Runoff_All'
 regine_main <- c('1.48','1.49','1.50')
 time_vec <- seq(ymd("2011-01-01"), ymd("2011-01-04"), by = "days")
 res <- load_data_mean(path_met, path_runoff, regine_main, time_vec)
@@ -46,7 +46,7 @@ The meteorological data is averaged over the watershed.
 ```R
 library(lubridate)
 path_met <- '//hdata/grid/metdata/met_obs_v2.0'
-path_runoff <- '//hdata/fou/Vannbalansekart/Data/Runoff_All'
+path_runoff <- '//hdata/fou/Avrenningskart/Data/Runoff_All'
 regine_main <- c('1.48','1.49','1.50')
 time_vec <- seq(ymd("2011-01-01"), ymd("2011-01-04"), by = "days")
 res <- load_data_elev(path_met, path_runoff, regine_main, time_vec)
@@ -58,7 +58,7 @@ The meteorological data is averaged using elevation bands (0 to 200m, 200 to 400
 ```R
 library(lubridate)
 path_met <- '//hdata/grid/metdata/met_obs_v2.0'
-path_runoff <- '//hdata/fou/Vannbalansekart/Data/Runoff_All'
+path_runoff <- '//hdata/fou/Avrenningskart/Data/Runoff_All'
 regine_main <- c('1.48','1.49','1.50')
 time_vec <- seq(ymd("2011-01-01"), ymd("2011-01-04"), by = "days")
 res <- load_data_mean(path_met, path_runoff, regine_main, time_vec)
@@ -71,7 +71,7 @@ write_to_text(res, path)
 metadata <- get_metadata()
 metadata <- metadata[metadata$br23_HBV == "Y", ]
 path_met <- '//hdata/grid/metdata/met_obs_v2.0'
-path_runoff <- '//hdata/fou/Vannbalansekart/Data/Runoff_All'
+path_runoff <- '//hdata/fou/Avrenningskart/Data/Runoff_All'
 regine_main <- metadata$regine_main
 time_vec <- seq(ymd("2000-10-01"), ymd("2010-10-10"), by = "days")
 res <- load_data_elev(path_met, path_runoff, regine_main, time_vec)

@@ -9,7 +9,7 @@
 #' @return Data for runnig hydrological models
 #' @examples
 #' path_met <- '//hdata/grid/metdata/met_obs_v2.0'
-#' path_runoff <- '//hdata/fou/Vannbalansekart/Data/Runoff_All'
+#' path_runoff <- '//hdata/fou/Avrenningskart/Data/Runoff_All'
 #' path_model_data <- 'C:/Users/jmg/Desktop/testdata'   # Change to approprite folder
 #' regine_main <- c('1.48','1.49','1.50')
 #' time_vec <- seq(ymd(Sys.Date()-10), ymd(Sys.Date()-5), by = "days")
@@ -78,7 +78,7 @@ write_model_data <- function(path_met, path_runoff, path_model_data, regine_main
 #' @return Data for runnig hydrological models
 #' @examples
 #' path_met <- '//hdata/grid/metdata/met_obs_v2.0'
-#' path_runoff <- '//hdata/fou/Vannbalansekart/Data/Runoff_All'
+#' path_runoff <- '//hdata/fou/Avrenningskart/Data/Runoff_All'
 #' path_model_data <- 'C:/Users/jmg/Desktop/testdata'   # Change to approprite folder
 #' regine_main <- c('1.48','1.49','1.50')
 #' time_vec <- seq(ymd(Sys.Date()-10), ymd(Sys.Date()-5), by = "days")

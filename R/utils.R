@@ -88,7 +88,7 @@ read_runoff_file <- function(path, filename) {
 
 #' @title Internal function for loading runoff data
 
-load_runoff_all <-  function(data, path, time_vec) {
+load_runoff_all <-  function(data, path) {
 
   # Load file
 
@@ -98,15 +98,14 @@ load_runoff_all <-  function(data, path, time_vec) {
 
   qdata$Value <- (qdata$Value * 86400 * 1000) / (data$metadata$area_total * 1e6)
 
-  # Select time period
+  # Temporary data frame
 
-  istart <- which(qdata$Time == head(time_vec, 1))
+  tmp <- dplyr::tbl_df(data.frame(Time = data$time_vec))
+  tmp <- dplyr::left_join(tmp, qdata)
 
-  istop <- which(qdata$Time == tail(time_vec, 1))
+  # Add runoff to data structure
 
-  # Get runoff series
-
-  data$Runoff <- qdata$Value[istart:istop]
+  data$Runoff <- tmp$Value
 
   return(data)
 

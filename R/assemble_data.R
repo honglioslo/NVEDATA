@@ -27,7 +27,7 @@ get_metadata <- function(regine_main = meta_data$regine_main) {
 #' @examples
 #' library(lubridate)
 #' path_met <- '//hdata/grid/metdata/met_obs_v2.0'
-#' path_runoff <- '//hdata/fou/Vannbalansekart/Data/Runoff_All'
+#' path_runoff <- '//hdata/fou/Avrenningskart/Data/Runoff_All'
 #' regine_main <- c('1.48','1.49','1.50')
 #' time_vec <- seq(ymd("2011-01-01"), ymd("2011-01-04"), by = "days")
 #' res <- load_data_mean(path_met, path_runoff, regine_main, time_vec)
@@ -91,16 +91,16 @@ load_data_mean <- function(path_met, path_runoff, regine_main, time_vec) {
 
     # Process air temperature data
 
-    filename <- paste(path_met, "/tm/", format(time_vec[iday], "%Y"), "/tm_", format(time_vec[iday], "%Y_%m_%d"), ".nc", sep = "")
-
-    met_data <- read_nc_file(filename)
-
-
-#     filename <- paste(path_met, "/tm/", format(time_vec[iday], "%Y"), "/tm_", format(time_vec[iday], "%Y_%m_%d"), ".bil", sep = "")
+#     filename <- paste(path_met, "/tm/", format(time_vec[iday], "%Y"), "/tm_", format(time_vec[iday], "%Y_%m_%d"), ".nc", sep = "")
 #
-#     met_data <- read_bil_file(filename)
-#
-#     met_data <- met_data/10 - 273.15
+#     met_data <- read_nc_file(filename)
+
+
+    filename <- paste(path_met, "/tm/", format(time_vec[iday], "%Y"), "/tm_", format(time_vec[iday], "%Y_%m_%d"), ".bil", sep = "")
+
+    met_data <- read_bil_file(filename)
+
+    met_data <- met_data/10 - 273.15
 
 
 
@@ -119,16 +119,16 @@ load_data_mean <- function(path_met, path_runoff, regine_main, time_vec) {
 
     # Process precipitation data
 
-    filename <- paste(path_met, "/rr/", format(time_vec[iday], "%Y"), "/rr_", format(time_vec[iday], "%Y_%m_%d"), ".nc", sep = "")
-
-    met_data <- read_nc_file(filename)
-
-
-#     filename <- paste(path_met, "/rr/", format(time_vec[iday], "%Y"), "/rr_", format(time_vec[iday], "%Y_%m_%d"), ".bil", sep = "")
+#     filename <- paste(path_met, "/rr/", format(time_vec[iday], "%Y"), "/rr_", format(time_vec[iday], "%Y_%m_%d"), ".nc", sep = "")
 #
-#     met_data <- read_bil_file(filename)
-#
-#     met_data <- met_data/10
+#     met_data <- read_nc_file(filename)
+
+
+    filename <- paste(path_met, "/rr/", format(time_vec[iday], "%Y"), "/rr_", format(time_vec[iday], "%Y_%m_%d"), ".bil", sep = "")
+
+    met_data <- read_bil_file(filename)
+
+    met_data <- met_data/10
 
 
 
@@ -166,7 +166,7 @@ load_data_mean <- function(path_met, path_runoff, regine_main, time_vec) {
 #' @examples
 #' library(lubridate)
 #' path_met <- '//hdata/grid/metdata/met_obs_v2.0'
-#' path_runoff <- '//hdata/fou/Vannbalansekart/Data/Runoff_All'
+#' path_runoff <- '//hdata/fou/Avrenningskart/Data/Runoff_All'
 #' regine_main <- c('1.48','1.49','1.50')
 #' time_vec <- seq(ymd("2011-01-01"), ymd("2011-01-04"), by = "days")
 #' res <- load_data_elev(path_met, path_runoff, regine_main, time_vec)
@@ -304,7 +304,7 @@ load_data_elev <- function(path_met, path_runoff, regine_main, time_vec) {
 
   # Get runoff data
 
-  data_all <- lapply(data_all,load_runoff_all, path = path_runoff, time = time_vec)
+  data_all <- invisible(lapply(data_all, load_runoff_all, path = path_runoff))
 
   invisible(data_all)
 

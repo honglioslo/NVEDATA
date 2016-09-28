@@ -4,6 +4,6 @@
 \alias{load_runoff_all}
 \title{Internal function for loading runoff data}
 \usage{
-load_runoff_all(data, path, time_vec)
+load_runoff_all(data, path)
 }
 

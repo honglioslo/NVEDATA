@@ -334,8 +334,6 @@ load_data_elev <- function(path_met, path_runoff, regine_main, time_vec, file_ty
 
   data_all <- invisible(lapply(data_all, load_runoff_all, path = path_runoff))
 
-  return(data_all)
+  invisible(data_all)
 
 }
-
-

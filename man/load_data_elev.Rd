@@ -4,7 +4,7 @@
 \alias{load_data_elev}
 \title{Load data for a set of stations, aggregate meteorological grids for the watershed into 200m elevation bands}
 \usage{
-load_data_elev(path_met, path_runoff, regine_main, time_vec)
+load_data_elev(path_met, path_runoff, regine_main, time_vec, file_type)
 }
 \arguments{
 \item{path_met}{Path to folder with gridded meteorological data (requires netcdf files, and SeNorge version 2.0 and 2.1)}
@@ -14,6 +14,8 @@ load_data_elev(path_met, path_runoff, regine_main, time_vec)
 \item{regine_main}{Vector with stations (regine_area and main_no seperated by a full stop)}
 
 \item{time_vec}{Vector with dates (using format from package lubridate)}
+
+\item{file_type}{Read from netcdf or bil files ("ncdf" or "bil")}
 }
 \value{
 A list with data for each station
@@ -26,7 +28,7 @@ Meteorological values stored on date yyyy-mm-dd are valid for the period from yy
 \examples{
 library(lubridate)
 path_met <- '//hdata/grid/metdata/met_obs_v2.0'
-path_runoff <- '//hdata/fou/Vannbalansekart/Data/Runoff_All'
+path_runoff <- '//hdata/fou/Avrenningskart/Data/Runoff_All'
 regine_main <- c('1.48','1.49','1.50')
 time_vec <- seq(ymd("2011-01-01"), ymd("2011-01-04"), by = "days")
 res <- load_data_elev(path_met, path_runoff, regine_main, time_vec)

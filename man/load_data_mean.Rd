@@ -4,7 +4,7 @@
 \alias{load_data_mean}
 \title{Load data for a set of stations, average meteorological grids for the watershed}
 \usage{
-load_data_mean(path_met, path_runoff, regine_main, time_vec)
+load_data_mean(path_met, path_runoff, regine_main, time_vec, file_type)
 }
 \arguments{
 \item{path_met}{Path to folder with gridded meteorological data (requires netcdf files, and SeNorge version 2.0 and 2.1)}
@@ -14,6 +14,8 @@ load_data_mean(path_met, path_runoff, regine_main, time_vec)
 \item{regine_main}{Vector with stations (regine_area and main_no seperated by a full stop)}
 
 \item{time_vec}{Vector with dates (using format from package lubridate)}
+
+\item{file_type}{Read from netcdf or bil files ("ncdf" or "bil")}
 }
 \value{
 A list with data for each station

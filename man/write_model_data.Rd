@@ -4,7 +4,8 @@
 \alias{write_model_data}
 \title{Write data for models using elevation zones}
 \usage{
-write_model_data(path_met, path_runoff, path_model_data, regine_main, time_vec)
+write_model_data(path_met, path_runoff, path_model_data, regine_main, time_vec,
+  file_type)
 }
 \arguments{
 \item{path_met}{Path to folder with gridded meteorological data (requires netcdf files, and SeNorge version 2.0 and 2.1)}
@@ -16,6 +17,8 @@ write_model_data(path_met, path_runoff, path_model_data, regine_main, time_vec)
 \item{regine_main}{Vector with stations (regine_area and main_no seperated by a full stop)}
 
 \item{time_vec}{Vector with dates (using format from package lubridate)}
+
+\item{file_type}{Read from netcdf or bil files ("ncdf" or "bil")}
 }
 \value{
 Data for runnig hydrological models
@@ -26,6 +29,7 @@ path_runoff <- '//hdata/fou/Avrenningskart/Data/Runoff_All'
 path_model_data <- 'C:/Users/jmg/Desktop/testdata'   # Change to approprite folder
 regine_main <- c('1.48','1.49','1.50')
 time_vec <- seq(ymd(Sys.Date()-10), ymd(Sys.Date()-5), by = "days")
-write_model_data(path_met, path_runoff, path_model_data, regine_main, time_vec)
+file_type <- "ncdf"
+write_model_data(path_met, path_runoff, path_model_data, regine_main, time_vec, file_type)
 }
 

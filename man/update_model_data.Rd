@@ -4,7 +4,7 @@
 \alias{update_model_data}
 \title{Update data for models}
 \usage{
-update_model_data(path_met, path_runoff, path_model_data, overlap)
+update_model_data(path_met, path_runoff, path_model_data, overlap, file_type)
 }
 \arguments{
 \item{path_met}{Path to folder with gridded meteorological data (requires netcdf files, and SeNorge version 2.0 and 2.1)}
@@ -14,6 +14,8 @@ update_model_data(path_met, path_runoff, path_model_data, overlap)
 \item{path_model_data}{Path to folder in which to save the output files}
 
 \item{overlap}{Number of days in the old data to replace with new data}
+
+\item{file_type}{Read from netcdf or bil files ("ncdf" or "bil")}
 }
 \value{
 Data for runnig hydrological models
@@ -25,7 +27,8 @@ path_model_data <- 'C:/Users/jmg/Desktop/testdata'   # Change to approprite fold
 regine_main <- c('1.48','1.49','1.50')
 time_vec <- seq(ymd(Sys.Date()-10), ymd(Sys.Date()-5), by = "days")
 overlap <- 2
-write_model_data(path_met, path_runoff, path_model_data, regine_main, time_vec)
-update_model_data(path_met, path_runoff, path_model_data, overlap)
+file_type <- "ncdf"
+write_model_data(path_met, path_runoff, path_model_data, regine_main, time_vec, file_type)
+update_model_data(path_met, path_runoff, path_model_data, overlap, file_type)
 }
 

@@ -59,8 +59,8 @@ write_model_data <- function(path_met, path_runoff, path_model_data, regine_main
 
     write.table(Tair, file = paste(folder_name, "/Tair.txt", sep = ""), sep = "\t", row.names = FALSE, col.names = FALSE)
     write.table(Prec, file = paste(folder_name, "/Prec.txt", sep = ""), sep = "\t", row.names = FALSE, col.names = FALSE)
-    write.table(Q_obs, file = paste(folder_name, "/Qobs.txt", sep = ""), sep = "\t", row.names = FALSE, col.names = FALSE)
-    write.table(frac_elev_band, file = paste(folder_name, "/frac_elev_band.txt", sep = ""), sep = "\t", row.names = FALSE, col.names = FALSE)
+    write.table(Q_obs, file = paste(folder_name, "/Q_obs.txt", sep = ""), sep = "\t", row.names = FALSE, col.names = FALSE)
+    write.table(frac_elev_band, file = paste(folder_name, "/Frac.txt", sep = ""), sep = "\t", row.names = FALSE, col.names = FALSE)
     write.table(metadata, file = paste(folder_name, "/metadata.txt", sep = ""), sep = ";", row.names = FALSE, quote = FALSE)
 
   }
@@ -124,7 +124,7 @@ update_model_data <- function(path_met, path_runoff, path_model_data, overlap, f
     Prec_old  <- data.frame(Time = as.Date(tmp[,1]), Prec = tmp[ ,2:ncol(tmp)])
     colnames(Prec_old) <- c("Time", paste("Prec", 1:(ncol(Prec_old)-1), sep = "."))
 
-    filename <- paste(path_model_data, "/", gsub("\\.", "_", data$regine_main), "_data/Qobs.txt", sep = "")
+    filename <- paste(path_model_data, "/", gsub("\\.", "_", data$regine_main), "_data/Q_obs.txt", sep = "")
     tmp <- read.table(filename, stringsAsFactors = FALSE)
     Qobs_old  <- data.frame(Time = as.Date(tmp[,1]), Qobs = tmp[ ,2:ncol(tmp)])
     colnames(Qobs_old) <- c("Time", "Qobs")
@@ -162,7 +162,7 @@ update_model_data <- function(path_met, path_runoff, path_model_data, overlap, f
     filename <- paste(path_model_data, "/", gsub("\\.", "_", data$regine_main), "_data/Prec.txt", sep = "")
     write.table(Prec_merged, file = filename, sep = "\t", row.names = FALSE, col.names = FALSE)
 
-    filename <- paste(path_model_data, "/", gsub("\\.", "_", data$regine_main), "_data/Qobs.txt", sep = "")
+    filename <- paste(path_model_data, "/", gsub("\\.", "_", data$regine_main), "_data/Q_obs.txt", sep = "")
     write.table(Qobs_merged, file = filename, sep = "\t", row.names = FALSE, col.names = FALSE)
 
   }
